@@ -28,4 +28,5 @@ const emit = defineEmits(['click'])
 const handleClick = () => {
   emit('click')
 }
+
 </script>
