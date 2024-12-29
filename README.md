@@ -33,4 +33,6 @@ npm run dev
 
 ## Support
 
-If you like this project, give it a star! If you love it, fork it and take it out for dinner. 🌟🍽️ And hey, why not [send some tip love?](https://thespielplatz.com/tip-jar)
+If you like this project, give it a star! If you love it, fork it and take it out for dinner. 🌟🍽️ 
+
+And hey, why not [send some tip love?](https://thespielplatz.com/tip-jar)
