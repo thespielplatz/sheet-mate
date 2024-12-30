@@ -1,5 +1,8 @@
 import { defineNuxtModule, createResolver, addPlugin, addServerHandler } from '@nuxt/kit'
 import consola from 'consola'
+import Jwt from '../lib/Jwt'
+
+let jwt
 
 export default defineNuxtModule({
   meta: {
@@ -11,8 +14,11 @@ export default defineNuxtModule({
   },
   defaults: {},
   hooks: {},
-  setup(moduleOptions, nuxt) {
+  async setup(moduleOptions, nuxt) {
     consola.info('Installing Auth module')
+
+    jwt = await Jwt.init()
+
     const { resolve } = createResolver(import.meta.url)
     addServerHandler({
       route: '/api/auth',
@@ -26,6 +32,7 @@ export default defineNuxtModule({
       src: resolve('./runtime/plugins/auth.client'),
       mode: 'client',
     })
+
     //addPlugin(resolve('./runtime/plugins/auth.client.ts'))
     // Components: https://nuxt.com/docs/guide/going-further/modules#injecting-vue-components-with-addcomponent
   }
