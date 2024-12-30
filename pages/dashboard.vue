@@ -2,6 +2,9 @@
   <div class="pt-20">
     <div class="text-2xl font-black">Dashboard</div>
     <div class="pt-10 flex flex-col gap-2">
+      <div v-for="item in list" :key="item.id">
+        <div>{{ item.id }} | {{ item.name }}</div>
+      </div>
       <div>
         <TypographyButtonDefault @click="logout">Logout</TypographyButtonDefault>
       </div>
@@ -13,12 +16,14 @@
 
 const { $auth } = useNuxtApp()
 
+const list = ref<{ id: string, name: string }[]>([])
+
 const logout = async () => {
-  //await $auth.logout()
+  await $auth.logout()
 }
 
 onMounted(async () => {
-  const list = await $auth.$fetch('/api/dashboard')
+  list.value = await $auth.$fetch('/api/dashboard')
 })
 
 </script>
