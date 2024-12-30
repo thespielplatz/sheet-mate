@@ -42,16 +42,6 @@ const registerAll = (nuxt: Nuxt) => {
     mode: 'client',
   })
 
-  addServerImportsDir(resolve(runtimeDir, 'server/utils'))
-  //addServerScanDir(resolve(runtimeDir, 'server/api'))
-  addServerPlugin(resolve(runtimeDir, 'server/plugins/init'))
-  addServerHandler({
-    route: '/api/auth',
-    handler: resolve(runtimeDir, 'server/api/auth/') 
-  })
-  addServerHandler({
-    route: '/api/auth/login',
-    handler: resolve(runtimeDir, 'server/api/auth/login.post')
-  })
+  addServerScanDir(resolve(runtimeDir, 'server'))
   // Components: https://nuxt.com/docs/guide/going-further/modules#injecting-vue-components-with-addcomponent
 }
