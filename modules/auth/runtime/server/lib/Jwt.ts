@@ -45,4 +45,24 @@ export default class Jwt {
 
     return new Jwt(keyPair)
   }
+
+  async createJwt({ 
+    payload,
+    issuer,
+    audience,
+    expirationTime
+  }: { 
+    payload: jose.JWTPayload,
+    issuer: string,
+    audience: string,
+    expirationTime: string
+  }) {
+    return new jose.SignJWT(payload)
+      .setProtectedHeader({ alg: Algorithm_RSA256})
+      .setIssuedAt()
+      .setIssuer(issuer)
+      .setAudience(audience)
+      .setExpirationTime(expirationTime)
+      .sign(this.keypair.privateKey)
+  }
 }

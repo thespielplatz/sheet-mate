@@ -14,5 +14,12 @@ export default defineEventHandler(async (event) => {
     return false
   }
 
+  const refreshToken = await createRefreshToken({ userId: user.id })
+  setCookie(event, 'refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+  })
+  
   return true
 })
