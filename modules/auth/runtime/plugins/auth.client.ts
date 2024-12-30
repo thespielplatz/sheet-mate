@@ -1,5 +1,7 @@
 import consola from 'consola'
 
+import Auth from '../lib/Auth'
+
 export default defineNuxtPlugin({
   name: 'auth-plugin',
   async setup (nuxtApp) {
@@ -7,19 +9,7 @@ export default defineNuxtPlugin({
 
     return {
       provide: {
-        auth: {
-          loginWithAccessKey: async (accessKey: string) => {
-            try {
-              const success = await $fetch('/api/auth/login', { 
-                method: 'POST',
-                body: { accessKey },
-              })
-              return success
-            } catch (e) {
-              return false
-            }
-          }
-        }
+        auth: new Auth()
       }
     }
   }

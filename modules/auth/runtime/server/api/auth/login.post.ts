@@ -11,7 +11,11 @@ export default defineEventHandler(async (event) => {
 
   const user = config.users?.find(user => user.accessKey === body.accessKey)
   if (!user) {
-    return false
+    throw createError({
+      status: 401,
+      message: "Login Denied",
+      statusMessage: "Login request Denied",
+    })
   }
 
   const refreshToken = await createRefreshToken({ userId: user.id })
@@ -20,6 +24,10 @@ export default defineEventHandler(async (event) => {
     secure: true,
     sameSite: 'strict',
   })
+
+  const accessToken = await createAccessToken({ userId: user.id })
   
-  return true
+  return {
+    accessToken
+  }
 })
