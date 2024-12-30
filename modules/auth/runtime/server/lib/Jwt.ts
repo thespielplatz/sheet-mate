@@ -65,4 +65,23 @@ export default class Jwt {
       .setExpirationTime(expirationTime)
       .sign(this.keypair.privateKey)
   }
+
+  async validate({
+    jwt,
+    audience,
+    issuer
+  }: { 
+    jwt: string, 
+    audience: string, 
+    issuer: string 
+  }) {
+    const { payload } = await jose.jwtVerify(jwt, this.keypair.publicKey, {
+      issuer,
+      audience,
+    })
+    if (payload.exp == null || payload.exp * 1000 < + new Date()) {
+      throw new jose.errors.JWTExpired('Authorization expired.', payload)
+    }
+    return payload
+  }  
 }

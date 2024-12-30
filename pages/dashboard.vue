@@ -17,4 +17,8 @@ const logout = async () => {
   //await $auth.logout()
 }
 
+onMounted(async () => {
+  const list = await $auth.$fetch('/api/dashboard')
+})
+
 </script>

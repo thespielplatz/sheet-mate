@@ -18,6 +18,7 @@ export default defineNuxtModule({
     audience: 'not-set',
     refreshTokenExpirationTime: '28 days',
     accessTokenExpirationTime: '5 min',
+    refreshCookieName: 'refresh_token',
   },
   hooks: {},
   async setup(moduleOptions, nuxt) {

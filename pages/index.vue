@@ -6,7 +6,7 @@
       <div>
         <TypographyButtonDefault @click="login">Submit</TypographyButtonDefault>
       </div>
-      <TypographyNotification ref="errorNotification" :isVisible="true" state="error">{{ errorMessage }}</TypographyNotification>
+      <TypographyNotification ref="errorNotification" :isVisible="false" state="error">{{ errorMessage }}</TypographyNotification>
     </div>
   </div>
 </template>

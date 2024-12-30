@@ -18,12 +18,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const refreshToken = await createRefreshToken({ userId: user.id })
-  setCookie(event, 'refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-  })
+  const sessionId = await createSessionId()
+  await setRefreshTokenAsCookie({ event, userId: user.id, sessionId })
 
   const accessToken = await createAccessToken({ userId: user.id })
   
