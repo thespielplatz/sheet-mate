@@ -4,7 +4,7 @@ import path from 'path'
 
 const UserSchema = z.object({
   id: z.string().length(21),
-  authKey: z.string(),
+  accessKey: z.string(),
 })
 
 const InventoryScannerSchema = z.object({

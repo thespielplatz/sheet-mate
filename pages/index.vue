@@ -4,7 +4,7 @@
     <div class="pt-10 flex flex-col gap-2">
       <TypographyInputDefault v-model="accessKey" type="text" label="Access Key" />
       <div>
-        <TypographyButtonDefault @click="">Submit</TypographyButtonDefault>
+        <TypographyButtonDefault @click="login">Submit</TypographyButtonDefault>
       </div>
     </div>
   </div>
@@ -13,5 +13,11 @@
 <script setup lang="ts">
 
 const accessKey = ref('')
+const { $auth } = useNuxtApp()
+
+const login = async () => {
+  const success = await $auth.loginWithAccessKey(accessKey.value)
+  alert(`Login: ${success}`)
+}
 
 </script>
