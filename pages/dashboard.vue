@@ -14,15 +14,23 @@
 
 <script setup lang="ts">
 
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const { $auth } = useNuxtApp()
 
 const list = ref<{ id: string, name: string }[]>([])
 
 const logout = async () => {
   await $auth.logout()
+  router.replace({ path: '/' })
 }
 
 onMounted(async () => {
+  if (!$auth.isLoggedIn) {
+    router.replace({ path: '/' })
+  }
   list.value = await $auth.$fetch('/api/dashboard')
 })
 

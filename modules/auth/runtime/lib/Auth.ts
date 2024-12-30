@@ -26,14 +26,25 @@ export default class Auth {
     }    
   }
 
-  get accessToken() {
-    return this._accessToken
+  async logout() {
+    try {
+      const success = await $fetch('/api/auth/logout')
+      return success
+      this._accessToken = null
+    } catch (e) {
+      this._accessToken = null
+      return false
+    }        
+  }
+
+  get isLoggedIn() {
+    return this._accessToken !== null
   }
 
   get $fetch() {
     return $fetch.create({
       headers: {
-        Authorization: `${this.accessToken}`
+        Authorization: `${this._accessToken}`
       }
     })
   }
