@@ -5,9 +5,6 @@
       <div v-for="item in list" :key="item.id">
         <div>{{ item.id }} | {{ item.name }}</div>
       </div>
-      <div>
-        <TypographyButtonDefault @click="logout">Logout</TypographyButtonDefault>
-      </div>
     </div>
   </div>
 </template>

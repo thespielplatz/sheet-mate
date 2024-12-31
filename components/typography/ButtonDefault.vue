@@ -1,8 +1,10 @@
 <template>
-  <button class="bg-slate-700 text-white rounded-md px-2 py-1
-    border border-slate-900
-    hover:bg-slate-900
-    ">
+  <button :class="[
+    'bg-slate-700 text-white rounded-md px-2 py-1',
+    'border border-slate-900', 
+    'hover:bg-slate-900',
+    styleClass,
+    ]">
     <slot />
   </button> 
 </template>
@@ -16,16 +18,22 @@ import { defineProps, toRefs } from 'vue'
 const value = ref('')
 
 const props = defineProps({
-  label: {
-    type: String,
-    default: ''
+  size: {
+    type: String as PropType<'normal' | 'small'>,
+    default: 'normal'
   },
-  type: {
-    type: String,
-    default: 'text'
+})
+
+const styleClass = computed(() => {
+  switch (props.size) {
+    case 'small':
+      return 'text-xs font-bold'
+    case 'normal':
+    default:
+      return ''
   }
 })
 
-const { type, label, ...attrs } = toRefs(props)
+const { ...attrs } = toRefs(props)
 
 </script>
