@@ -1,8 +1,7 @@
-import { defineNuxtModule, createResolver, addPlugin, addServerHandler, addImportsDir, addServerImportsDir, addServerPlugin, addServerScanDir } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addRouteMiddleware, addPlugin, addServerScanDir } from '@nuxt/kit'
 import consola from 'consola'
 import { defu } from 'defu'
 
-import { initJwt } from './runtime/server/utils/useJwt'
 import type { Nuxt } from 'nuxt/schema'
 
 export default defineNuxtModule({
@@ -19,6 +18,9 @@ export default defineNuxtModule({
     refreshTokenExpirationTime: '28 days',
     accessTokenExpirationTime: '5 min',
     refreshCookieName: 'refresh_token',
+    public: {
+      redirectOnLoggedIn: '/dashboard',
+    },
   },
   hooks: {},
   async setup(moduleOptions, nuxt) {
@@ -26,6 +28,9 @@ export default defineNuxtModule({
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       authModule: moduleOptions,
+    })
+    nuxt.options.runtimeConfig.public = defu(nuxt.options.runtimeConfig.public, {
+      authModule: moduleOptions.public,
     })
 
     registerAll(nuxt)

@@ -1,3 +1,4 @@
+import { useRouter } from 'vue-router'
 export default class Auth {
   _accessToken: string | null = null
 
@@ -16,6 +17,7 @@ export default class Auth {
   }
 
   async refresh() {
+    console.log('refreshing')
     try {
       const { accessToken } = await $fetch('/api/auth/refresh')
       this._accessToken = accessToken
@@ -35,6 +37,13 @@ export default class Auth {
       this._accessToken = null
       return false
     }        
+  }
+
+  redirectIfLoggedIn() {
+    if (this.isLoggedIn) {
+      const router = useRouter()
+      router.replace({ path: useRuntimeConfig().public.authModule.redirectOnLoggedIn })
+    }
   }
 
   get isLoggedIn() {

@@ -43,4 +43,9 @@ const login = async () => {
   }
 }
 
+onBeforeMount(() => {
+  $auth.redirectIfLoggedIn()
+  //$auth.isLoggedIn && router.replace({ path: '/dashboard' })
+})
+
 </script>
