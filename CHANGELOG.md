@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.2...v0.0.3)
+
+### 🚀 Enhancements
+
+- **scanner:** Add qr code and barcode scanner ([da9cbf5](https://github.com/thespielplatz/sheet-mate/commit/da9cbf5))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.2
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.1...v0.0.2)
