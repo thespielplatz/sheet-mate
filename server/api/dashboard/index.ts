@@ -1,6 +1,6 @@
 import z from 'zod'
 
-const OutputSchema = z.array(z.object({
+const DashboardDto = z.array(z.object({
   id: z.string(),
   name: z.string(),
 }))
@@ -12,5 +12,5 @@ export default defineLoggedInEventHandler(async (event, user) => {
       name: scanner.name,
     }
   })
-  return OutputSchema.parse(inventoryScanners)
+  return DashboardDto.parse(inventoryScanners)
 })
