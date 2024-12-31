@@ -31,4 +31,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
+  build: {
+    transpile: ['vue-barcode-reader'],
+  },
 })
