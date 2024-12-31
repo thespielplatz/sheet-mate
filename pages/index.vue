@@ -17,13 +17,9 @@
 
 <script setup lang="ts">
 
-import { useRouter } from 'vue-router'
-
 definePageMeta({
   layout: 'noheader',
 })
-
-const router = useRouter()
 
 const errorNotification = ref()
 const accessKey = ref('')
@@ -33,7 +29,7 @@ const { $auth } = useNuxtApp()
 const login = async () => {
   const success = await $auth.loginWithAccessKey(accessKey.value)
   if (success) {
-    router.replace({ path: '/dashboard' })
+    await navigateTo('/dashboard')
   } else {
     errorNotification.value.show()
     errorMessage.value = 'Could not login'
@@ -43,9 +39,8 @@ const login = async () => {
   }
 }
 
-onBeforeMount(() => {
-  $auth.redirectIfLoggedIn()
-  //$auth.isLoggedIn && router.replace({ path: '/dashboard' })
+onBeforeMount(async () => {
+  await $auth.redirectIfLoggedIn()
 })
 
 </script>

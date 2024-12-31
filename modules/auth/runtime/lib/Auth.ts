@@ -31,18 +31,17 @@ export default class Auth {
   async logout() {
     try {
       const success = await $fetch('/api/auth/logout')
-      return success
       this._accessToken = null
+      return success
     } catch (e) {
       this._accessToken = null
       return false
     }        
   }
 
-  redirectIfLoggedIn() {
+  async redirectIfLoggedIn() {
     if (this.isLoggedIn) {
-      const router = useRouter()
-      router.replace({ path: useRuntimeConfig().public.authModule.redirectOnLoggedIn })
+      await navigateTo(useRuntimeConfig().public.authModule.redirectOnLoggedIn, { replace: true })
     }
   }
 

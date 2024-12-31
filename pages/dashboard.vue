@@ -3,7 +3,7 @@
     <TypographyHeadlineDefault>Dashboard</TypographyHeadlineDefault>
     <div class="pt-10 flex flex-col gap-2">
       <div v-for="item in list" :key="item.id">
-        <TypographyLinkDefault :href="`/mate/scanner/${item.id}`">{{ item.name }}</TypographyLinkDefault>
+        <TypographyLinkDefault :to="`/mate/scanner/${item.id}`">{{ item.name }}</TypographyLinkDefault>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@ const list = ref<{ id: string, name: string }[]>([])
 
 onMounted(async () => {
   if (!$auth.isLoggedIn) {
-    router.replace({ path: '/' })
+    return await navigateTo('/')
   }
   list.value = await $auth.$fetch('/api/dashboard')
 })

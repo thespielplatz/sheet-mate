@@ -2,7 +2,7 @@
   <LayoutCenterContainer class="border-b pt-4 pb-3">
     <div class="flex justify-between items-center">
     <div class="text-2xl font-black">
-      <TypographyLinkDefault href="/dashboard" >
+      <TypographyLinkDefault to="/dashboard" >
         <b-icon-file-earmark-spreadsheet />
         Sheet Mate
       </TypographyLinkDefault>
@@ -21,7 +21,7 @@ const { $auth } = useNuxtApp()
 
 const logout = async () => {
   await $auth.logout()
-  router.replace({ path: '/' })
+  await navigateTo('/')
 }
 
 </script>
