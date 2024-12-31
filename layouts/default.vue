@@ -1,7 +1,7 @@
 <template>
   <div class="font-sans min-h-screen flex flex-col">
     <LayoutTheHeader />
-    <CenterContainer class="flex-1" >
+    <CenterContainer class="pt-5 flex-1" >
       <NuxtPage/>
     </CenterContainer>
     <TheFooter class="shrink-0" />

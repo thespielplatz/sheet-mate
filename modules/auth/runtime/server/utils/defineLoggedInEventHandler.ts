@@ -14,21 +14,22 @@ export const defineLoggedInEventHandler = <T extends EventHandlerRequest, D>(
       })
     }
 
+    let user
     try {
       const { userId } = await validateAccessToken({ jwt: authorization })
-      const user = useConfig().users?.find(u => u.id === userId)
+      user = useConfig().users?.find(u => u.id === userId)
       if (!user) {
         throw createError({
-          status: 401,
+          status: 500,
           message: "User not found",
         })
       }
-
-      return await handler(event, user)
     } catch (err) {
       throw createError({
-        status: 400,
+        status: 401,
         message: "Invalid access token",
       })
     }
+
+    return await handler(event, user)
   })
