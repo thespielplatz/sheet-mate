@@ -23,7 +23,9 @@ onMounted(async () => {
   if (!$auth.isLoggedIn) {
     return await navigateTo('/')
   }
-  list.value = await $auth.$fetch('/api/dashboard')
+  list.value = await $auth.$fetch('/api/dashboard', {
+    method: 'GET',
+  })
 })
 
 </script>
