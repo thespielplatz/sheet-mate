@@ -4,7 +4,7 @@ import { getScannerConfig } from '../../utils/getScannerConfig'
 
 const InputSchema = z.object({
   scannerId: z.string().describe('Scanner id'),
-  inventoryId: z.string().describe('Inventory id'),
+  code: z.string().describe('Inventory code'),
 })
 
 export const InventoryItemDto = z.object({
@@ -52,7 +52,7 @@ export default defineLoggedInEventHandler(async (event, user) => {
   const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
   try {
 
-  const result = await nocoDB.getRecordByField({ field: 'code', value: query.inventoryId })
+  const result = await nocoDB.getRecordByField({ field: 'code', value: query.code })
 
   if (result.list.length === 0) {
     return InventoryItemDto.parse(null)

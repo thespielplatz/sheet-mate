@@ -49,8 +49,8 @@ const decode = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
 
 onMounted(async () => {
-  //await loadItem('testIdExists')
-  //return
+  await loadItem('testIdExists')
+  return
   try {
     const scannerInfo = await $auth.$fetch('/api/scanner', {
       method: 'GET',
@@ -77,7 +77,7 @@ const onDecode = (data: string) => {
   loadItem(data)
 }
 
-const loadItem = async (inventoryId: string) => {
+const loadItem = async (code: string) => {
   state.value = 'loading'
 
   try {
@@ -85,7 +85,7 @@ const loadItem = async (inventoryId: string) => {
     method: 'GET',
     query: {
       scannerId: route.params.id,
-      inventoryId,
+      code,
     }
   })
     state.value = 'edit'
@@ -93,6 +93,23 @@ const loadItem = async (inventoryId: string) => {
     showErrorAndReset(e)
   }
 }
+/*
+const saveItem = async({ id, amount }: { id: string, amount: number }) => {
+  try {
+    inventoryData.value = await $auth.$fetch('/api/scanner/item', {
+    method: 'POST',
+    query: {
+      scannerId: route.params.id,
+      id,
+      amount,
+    }
+  })
+    state.value = 'edit'
+  } catch (e) {
+    showErrorAndReset(e)
+  }
+}
+*/
 
 const showErrorAndReset = (e: any) => {
   errorNotification.value.show({
@@ -101,5 +118,6 @@ const showErrorAndReset = (e: any) => {
   })
   state.value = 'start'
 }
+
 
 </script>
