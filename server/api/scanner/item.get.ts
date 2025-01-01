@@ -1,4 +1,5 @@
 import z from 'zod'
+import consola from 'consola'
 import { getScannerConfig } from '../../utils/getScannerConfig'
 
 const InputSchema = z.object({
@@ -49,6 +50,8 @@ export default defineLoggedInEventHandler(async (event, user) => {
   }
 
   const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
+  try {
+
   const result = await nocoDB.getRecordByField({ field: 'code', value: query.inventoryId })
 
   if (result.list.length === 0) {
@@ -56,13 +59,12 @@ export default defineLoggedInEventHandler(async (event, user) => {
   }
 
   const inventoryItem = result.list[0]
-  const parseResult = InventoryItemDto.safeParse(inventoryItem)
-  if (!parseResult.success) {
+  return InventoryItemDto.parse(inventoryItem)
+  } catch (error) {
+    consola.error(error)
     throw createError({
       status: 500,
-      message: 'Failed to parse table row! Mandatory fields: code, name, amount',
+      message: 'Failed to load and parse table row! Check mandatory fields and their types.',
     })
   }
-
-  return parseResult.data
 })

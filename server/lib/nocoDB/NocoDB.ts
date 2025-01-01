@@ -1,4 +1,5 @@
 import { RecordsResultSchema as RecordsResultSchema } from './RecordsResultSchema'
+import { TableMetadataResultSchema } from './TableMetadataResultSchema'
 
 export default class NocoDB {
   domain: string
@@ -27,6 +28,17 @@ export default class NocoDB {
       }
     })
     return RecordsResultSchema.parse(result)
+  }
+
+  async getTableMeta() {
+    const url = `${this.domain}/api/v2/meta/tables/${this.table}`
+    const result = await $fetch(url, {
+      headers: {
+        'xc-token': this.apiToken,
+      }
+    })
+
+    return TableMetadataResultSchema.parse(result)
   }
 
   private get getTableUrl() {

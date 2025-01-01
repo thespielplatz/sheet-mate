@@ -1,5 +1,6 @@
 import z from 'zod'
 import { getScannerConfig } from '../../utils/getScannerConfig'
+import checkTableMetadata from '~/server/domain/scanner/checkTableMetadata'
 
 const InputSchema = z.object({
   id: z.string().describe('Id of a QR code scanner mate'),
@@ -18,6 +19,16 @@ export default defineLoggedInEventHandler(async (event, user) => {
     throw createError({
       status: 404,
       message: 'Scanner not found',
+    })
+  }
+
+  const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
+  const result = await nocoDB.getTableMeta()
+  
+  if (!checkTableMetadata(result)) {
+    throw createError({
+      status: 500,
+      message: 'Table metadata is not correct!',
     })
   }
 

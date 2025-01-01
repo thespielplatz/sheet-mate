@@ -43,22 +43,26 @@ const route = useRoute()
 
 const errorNotification = ref()
 
-const state = ref<'start' | 'scanning' | 'loading' | 'edit'>('start')
+const state = ref<'start' | 'scanning' | 'loading' | 'edit' | 'error'>('start')
 const name = ref('')
 const decode = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
 
 onMounted(async () => {
-  await loadItem('testIdExists')
-  return
-  
-  const scannerInfo = await $auth.$fetch('/api/scanner', {
-    method: 'GET',
-    query: {
-      id: route.params.id
-    }
-  })
-  name.value = scannerInfo.name
+  //await loadItem('testIdExists')
+  //return
+  try {
+    const scannerInfo = await $auth.$fetch('/api/scanner', {
+      method: 'GET',
+      query: {
+        id: route.params.id
+      }
+    })
+    name.value = scannerInfo.name
+  } catch (e) {
+    errorNotification.value.show(`Initial Error: ${getFetchErrorMessage(e)}`)
+    state.value = 'error'
+  }
 })
 
 const openScanner = () => {
@@ -86,12 +90,16 @@ const loadItem = async (inventoryId: string) => {
   })
     state.value = 'edit'
   } catch (e) {
-    errorNotification.value.show({
-      message: `Could not load item: ${getFetchErrorMessage(e)}`,
-      autoHide: 2500,
-    })
-    state.value = 'start'
+    showErrorAndReset(e)
   }
+}
+
+const showErrorAndReset = (e: any) => {
+  errorNotification.value.show({
+    message: `Could not load item: ${getFetchErrorMessage(e)}`,
+    autoHide: 2500,
+  })
+  state.value = 'start'
 }
 
 </script>
