@@ -1,6 +1,10 @@
 <template>
-  <TypographyNotification ref="errorNotification" :isVisible="false" />
-  <div  v-if="state == 'scanning'" class="fixed">
+  <div class="relative">
+    <div class="absolute -top-5 left-0 right-0 z-50">
+      <TypographyNotification ref="notification" :isVisible="false" />
+    </div>
+  </div>
+  <div v-if="state == 'scanning'" class="fixed">
     <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
     ></StreamBarcodeReader>
   </div>
@@ -41,7 +45,7 @@ import { InventoryItemDto } from '~/server/api/scanner/item.get'
 const { $auth } = useNuxtApp()
 const route = useRoute()
 
-const errorNotification = ref()
+const notification = ref()
 
 const state = ref<'start' | 'scanning' | 'loading' | 'edit' | 'error'>('start')
 const name = ref('')
@@ -63,7 +67,7 @@ onMounted(async () => {
     })
     name.value = scannerInfo.name
   } catch (e) {
-    errorNotification.value.show(`Initial Error: ${getFetchErrorMessage(e)}`)
+    notification.value.show(`Initial Error: ${getFetchErrorMessage(e)}`)
     state.value = 'error'
   }
 })
@@ -113,7 +117,7 @@ const saveItem = async({ amount }: { amount: number }) => {
     }
   })
     state.value = 'start'
-    errorNotification.value.show({
+    notification.value.show({
     message: `Amount saved!`,
     autoHide: 2500,
     state: 'success',
@@ -125,7 +129,7 @@ const saveItem = async({ amount }: { amount: number }) => {
 }
 
 const showErrorAndReset = (e: any) => {
-  errorNotification.value.show({
+  notification.value.show({
     message: `Could not load item: ${getFetchErrorMessage(e)}`,
     autoHide: 2500,
     state: 'error',
