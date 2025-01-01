@@ -1,5 +1,6 @@
 import { RecordsResultSchema as RecordsResultSchema } from './RecordsResultSchema'
 import { TableMetadataResultSchema } from './TableMetadataResultSchema'
+import { UpdateRecordResultSchema } from './UpdateRecordResultSchema'
 
 export default class NocoDB {
   domain: string
@@ -28,6 +29,19 @@ export default class NocoDB {
       }
     })
     return RecordsResultSchema.parse(result)
+  }
+
+  async updateRecord(data: Record<string, any>) {
+    const url = `${this.getTableUrl}/records`
+
+    const result = await $fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'xc-token': this.apiToken,
+      },
+      body: data,
+    })
+    return UpdateRecordResultSchema.parse(result)
   }
 
   async getTableMeta() {

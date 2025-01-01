@@ -15,9 +15,11 @@
 
 const elementRef = ref<HTMLDivElement | null>(null)
 
+type State = 'normal' | 'success' | 'error'
+
 const { state, isVisible, message } = defineProps({
   state: {
-    type: String as PropType<'normal' | 'error'>,
+    type: String as PropType<State>,
     default: 'normal',
   },
   isVisible: {
@@ -32,28 +34,34 @@ const { state, isVisible, message } = defineProps({
 
 const localIsVisible = ref(isVisible)
 const localMessage = ref(message)
+const localState = ref(state)
 
 const styleClass = computed(() => {
-  switch (state) {
+  switch (localState.value) {
     case 'error':
       return 'text-white bg-red-700  border-red-900'
+    case 'success':
+      return 'text-white bg-green-700  border-green-900'
     case 'normal':
     default:
       return 'text-white bg-slate-500  border-slate-900'
   }
 })
 
-const show = (params?: string | { message: string, autoHide?: number }) => {
+const show = (params?: string | { message: string, autoHide?: number, state?: State }) => {
   if (typeof params === 'string') {
     localMessage.value = params
   }
   if (typeof params === 'object') {
-    const config = params as { message: string, autoHide?: number }
+    const config = params as { message: string, autoHide?: number, state?: State }
     localMessage.value = config.message
     if (config.autoHide) {
       setTimeout(() => {
         fadeOut()
       }, config.autoHide)
+    }
+    if (config.state) {
+      localState.value = config.state
     }
   }
   localIsVisible.value = true

@@ -1,5 +1,5 @@
 <template>
-  <TypographyNotification ref="errorNotification" :isVisible="false" state="error" />
+  <TypographyNotification ref="errorNotification" :isVisible="false" />
   <div  v-if="state == 'scanning'" class="fixed">
     <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
     ></StreamBarcodeReader>
@@ -19,10 +19,10 @@
       px-3 h-14 bg-slate-200 rounded text-black border border-slate-300 
       text-4xl
       flex items-center justify-center">{{ inventoryData?.amount }}</div>
-      <TypographyButtonDefault class="text-4xl w-14">
+      <TypographyButtonDefault class="text-4xl w-14" @click="saveItem({ amount: amount + 1 });">
         +1
       </TypographyButtonDefault>    
-      <TypographyButtonDefault class="text-4xl w-14">
+      <TypographyButtonDefault class="text-4xl w-14" @click="saveItem({ amount: amount - 1 })">
         -1
       </TypographyButtonDefault>    
     </div>
@@ -47,6 +47,9 @@ const state = ref<'start' | 'scanning' | 'loading' | 'edit' | 'error'>('start')
 const name = ref('')
 const decode = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
+
+let code = ''
+let amount = 0
 
 onMounted(async () => {
   await loadItem('testIdExists')
@@ -77,44 +80,55 @@ const onDecode = (data: string) => {
   loadItem(data)
 }
 
-const loadItem = async (code: string) => {
+const loadItem = async (codeToLoad: string) => {
+  code = codeToLoad
+  amount = 0
   state.value = 'loading'
 
   try {
     inventoryData.value = await $auth.$fetch('/api/scanner/item', {
-    method: 'GET',
-    query: {
-      scannerId: route.params.id,
-      code,
-    }
-  })
+      method: 'GET',
+      query: {
+        scannerId: route.params.id,
+        code,
+      }
+    })
+    code = inventoryData.value?.code || 'error'
+    amount = inventoryData.value?.amount || 0
     state.value = 'edit'
   } catch (e) {
     showErrorAndReset(e)
+    code = ''
   }
 }
-/*
-const saveItem = async({ id, amount }: { id: string, amount: number }) => {
+
+const saveItem = async({ amount }: { amount: number }) => {
   try {
     inventoryData.value = await $auth.$fetch('/api/scanner/item', {
     method: 'POST',
-    query: {
+    body: {
       scannerId: route.params.id,
-      id,
+      code,
       amount,
     }
   })
-    state.value = 'edit'
+    state.value = 'start'
+    errorNotification.value.show({
+    message: `Amount saved!`,
+    autoHide: 2500,
+    state: 'success',
+  })
+
   } catch (e) {
     showErrorAndReset(e)
   }
 }
-*/
 
 const showErrorAndReset = (e: any) => {
   errorNotification.value.show({
     message: `Could not load item: ${getFetchErrorMessage(e)}`,
     autoHide: 2500,
+    state: 'error',
   })
   state.value = 'start'
 }

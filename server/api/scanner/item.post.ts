@@ -5,6 +5,7 @@ import { getScannerConfig } from '../../utils/getScannerConfig'
 const InputSchema = z.object({
   scannerId: z.string().describe('Scanner id'),
   code: z.string().describe('Inventory code'),
+  amount: z.number().describe('Inventory amount'),
 })
 
 export const InventoryItemDto = z.object({
@@ -39,8 +40,7 @@ export const InventoryItemDto = z.object({
 export type InventoryItemDto = z.infer<typeof InventoryItemDto>
 
 export default defineLoggedInEventHandler(async (event, user) => {
-  const query = await getValidatedQuery(event, InputSchema.parse)
-
+  const query = await readValidatedBody(event, InputSchema.parse)
   const scannerConfig = getScannerConfig({ userId: user.id, scannerId: query.scannerId })
   if (!scannerConfig) {
     throw createError({
@@ -50,21 +50,29 @@ export default defineLoggedInEventHandler(async (event, user) => {
   }
 
   const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
-
   try {
+    let id
     const result = await nocoDB.getRecordByField({ field: 'code', value: query.code })
 
     if (result.list.length === 0) {
-      return InventoryItemDto.parse(null)
+      id = null
+    } else {
+      id = result.list[0].Id      
     }
 
-    const inventoryItem = result.list[0]
-    return InventoryItemDto.parse(inventoryItem)
+    if (id) {
+      await nocoDB.updateRecord({
+        Id: id,
+        amount: query.amount,
+      })
+      return true
+    }
+    return true
   } catch (error) {
     consola.error(error)
     throw createError({
       status: 500,
-      message: 'Failed to load and parse table row! Check mandatory fields and their types.',
+      message: String(error),
     })
   }
 })
