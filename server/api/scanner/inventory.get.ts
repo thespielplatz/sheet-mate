@@ -6,18 +6,7 @@ const InputSchema = z.object({
   inventoryId: z.string().describe('Inventory id'),
 })
 
-const customFieldsParser = z.array(z.unknown()).transform((fields) =>
-  fields.map((field) => {
-    if (typeof field !== "object" || field === null) {
-      throw new Error("Invalid field format");
-    }
-    const key = Object.keys(field)[0];
-    const name = Object.values(field)[0];
-    return { key, name: String(name) };
-  })
-);
-
-const InventoryItemDto = z.object({
+export const InventoryItemDto = z.object({
   Id: z.number(),
   name: z.string(),
   code: z.string(),
@@ -29,6 +18,7 @@ const InventoryItemDto = z.object({
     id: item.Id,
     name: item.name,
     code: item.code,
+    amount: item.amount,
     createdAt: new Date(item.CreatedAt).getTime(),
     updatedAt: new Date(item.UpdatedAt).getTime(),
     fields: {},
@@ -45,6 +35,8 @@ const InventoryItemDto = z.object({
   return transformed
 }).nullable()
 
+export type InventoryItemDto = z.infer<typeof InventoryItemDto>
+
 export default defineLoggedInEventHandler(async (event, user) => {
   const query = await getValidatedQuery(event, InputSchema.parse)
 
@@ -58,15 +50,19 @@ export default defineLoggedInEventHandler(async (event, user) => {
 
   const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
   const result = await nocoDB.getRecordByField({ field: 'code', value: query.inventoryId })
-  console.log('Noco Result', result) 
 
   if (result.list.length === 0) {
     return InventoryItemDto.parse(null)
   }
 
   const inventoryItem = result.list[0]
-  const parsed = InventoryItemDto.parse(inventoryItem)
-  console.log('Parsed', parsed)
+  const parseResult = InventoryItemDto.safeParse(inventoryItem)
+  if (!parseResult.success) {
+    throw createError({
+      status: 500,
+      message: 'Failed to parse table row! Mandatory fields: code, name, amount',
+    })
+  }
 
-  return parsed
+  return parseResult.data
 })

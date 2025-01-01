@@ -7,7 +7,7 @@
       styleClass,
       localIsVisible ? 'opacity-100' : 'opacity-0',
     ]">
-    <slot />
+    {{ localMessage }}<slot />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 
 const elementRef = ref<HTMLDivElement | null>(null)
 
-const { state, isVisible } = defineProps({
+const { state, isVisible, message } = defineProps({
   state: {
     type: String as PropType<'normal' | 'error'>,
     default: 'normal',
@@ -24,9 +24,14 @@ const { state, isVisible } = defineProps({
     type: Boolean,
     default: true,
   },
+  message: {
+    type: String,
+    default: '',
+  }
 })
 
 const localIsVisible = ref(isVisible)
+const localMessage = ref(message)
 
 const styleClass = computed(() => {
   switch (state) {
@@ -38,7 +43,19 @@ const styleClass = computed(() => {
   }
 })
 
-const show = () => {
+const show = (params?: string | { message: string, autoHide?: number }) => {
+  if (typeof params === 'string') {
+    localMessage.value = params
+  }
+  if (typeof params === 'object') {
+    const config = params as { message: string, autoHide?: number }
+    localMessage.value = config.message
+    if (config.autoHide) {
+      setTimeout(() => {
+        fadeOut()
+      }, config.autoHide)
+    }
+  }
   localIsVisible.value = true
   if (elementRef.value) {
     elementRef.value.style.display = ''

@@ -1,32 +1,57 @@
 <template>
+  <TypographyNotification ref="errorNotification" :isVisible="false" state="error" />
   <div  v-if="state == 'scanning'" class="fixed">
-  <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
-  ></StreamBarcodeReader>
-</div>
+    <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
+    ></StreamBarcodeReader>
+  </div>
   <TypographyHeadlineDefault>{{ name }}</TypographyHeadlineDefault>
   <div class="pt-4 flex justify-center items-center">
-    <TypographyButtonDefault v-if="state == 'start' || state == 'product'" @click="openScanner" class="text-4xl">
+    <TypographyButtonDefault v-if="state == 'start' || state == 'edit'" @click="openScanner" class="text-4xl">
       <b-icon-upc-scan />
     </TypographyButtonDefault>
   </div>
-  <div v-if="state == 'product'">
-    <pre>Result:{{ decode }}</pre>
+  <div v-if="state == 'edit'">
+    <div class="font-bold text-2xl">{{ inventoryData?.name }}</div>
+    <div class="text-xs text-slate-600">Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}</div>
+    <div class="font-bold text-xl">Amount</div>
+    <div class="flex gap-2">
+      <div class="
+      px-3 h-14 bg-slate-200 rounded text-black border border-slate-300 
+      text-4xl
+      flex items-center justify-center">{{ inventoryData?.amount }}</div>
+      <TypographyButtonDefault class="text-4xl w-14">
+        +1
+      </TypographyButtonDefault>    
+      <TypographyButtonDefault class="text-4xl w-14">
+        -1
+      </TypographyButtonDefault>    
+    </div>
+    <div class="font-bold text-xl">Fields</div>
+    <ul>
+      <li v-for="value, key in inventoryData?.fields">{{ key }}: {{ value }}</li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 
-import { StreamBarcodeReader } from "vue-barcode-reader";
+import { StreamBarcodeReader } from 'vue-barcode-reader'
+import { InventoryItemDto } from '~/server/api/scanner/inventory.get'
 
 const { $auth } = useNuxtApp()
 const route = useRoute()
 
-const state = ref<'start' | 'scanning' | 'product'>('start')
+const errorNotification = ref()
+
+const state = ref<'start' | 'scanning' | 'loading' | 'edit'>('start')
 const name = ref('')
 const decode = ref('')
+const inventoryData = ref<InventoryItemDto>(null)
 
 onMounted(async () => {
-  await loadInventory('testIdExists')
+  await loadItem('testIdExists')
+  return
+  
   const scannerInfo = await $auth.$fetch('/api/scanner', {
     method: 'GET',
     query: {
@@ -45,18 +70,28 @@ const onLoaded = () => {
 
 const onDecode = (data: string) => {
   decode.value = data
-  state.value = 'product' 
+  loadItem(data)
 }
 
-const loadInventory = async (inventoryId: string) => {
-  const inventoryData = await $auth.$fetch('/api/scanner/inventory', {
+const loadItem = async (inventoryId: string) => {
+  state.value = 'loading'
+
+  try {
+    inventoryData.value = await $auth.$fetch('/api/scanner/inventory', {
     method: 'GET',
     query: {
       scannerId: route.params.id,
       inventoryId,
     }
   })
-  alert(JSON.stringify(inventoryData))
+    state.value = 'edit'
+  } catch (e) {
+    errorNotification.value.show({
+      message: `Could not load item: ${getFetchErrorMessage(e)}`,
+      autoHide: 2500,
+    })
+    state.value = 'start'
+  }
 }
 
 </script>

@@ -10,7 +10,7 @@
       <div>
         <TypographyButtonDefault @click="login">Submit</TypographyButtonDefault>
       </div>
-      <TypographyNotification ref="errorNotification" :isVisible="false" state="error">{{ errorMessage }}</TypographyNotification>
+      <TypographyNotification ref="errorNotification" :isVisible="false" state="error" />
     </div>
   </div>
 </template>
@@ -23,7 +23,6 @@ definePageMeta({
 
 const errorNotification = ref()
 const accessKey = ref('')
-const errorMessage = ref('')
 const { $auth } = useNuxtApp()
 
 const login = async () => {
@@ -31,11 +30,10 @@ const login = async () => {
   if (success) {
     await navigateTo('/dashboard')
   } else {
-    errorNotification.value.show()
-    errorMessage.value = 'Could not login'
-    setTimeout(() => {
-      errorNotification.value.fadeOut()
-    }, 2500)
+    errorNotification.value.show({
+      message: 'Could not login',
+      autoHide: 2500,
+    })
   }
 }
 
