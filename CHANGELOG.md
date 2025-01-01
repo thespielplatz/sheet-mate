@@ -1,6 +1,32 @@
 # Changelog
 
 
+## v0.0.4
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.3...v0.0.4)
+
+### 🚀 Enhancements
+
+- **scanner:** Get data from nocodb ([c8d6f74](https://github.com/thespielplatz/sheet-mate/commit/c8d6f74))
+- **scanner:** Add error when table row is missing fields ([b3ea46a](https://github.com/thespielplatz/sheet-mate/commit/b3ea46a))
+- **scanner:** Add table meta data check at init and show error message ([088c65f](https://github.com/thespielplatz/sheet-mate/commit/088c65f))
+- **scanner:** Add save success ([4e68d84](https://github.com/thespielplatz/sheet-mate/commit/4e68d84))
+- **scanner:** Add new item ([2f689ca](https://github.com/thespielplatz/sheet-mate/commit/2f689ca))
+
+### 🩹 Fixes
+
+- Add vue-barcode-reader to build transpile ([bc95715](https://github.com/thespielplatz/sheet-mate/commit/bc95715))
+- Typescript vscode problem ([d36b899](https://github.com/thespielplatz/sheet-mate/commit/d36b899))
+
+### 🏡 Chore
+
+- Update typescript ([8d19f9f](https://github.com/thespielplatz/sheet-mate/commit/8d19f9f))
+- Notification as overlay ([33f4856](https://github.com/thespielplatz/sheet-mate/commit/33f4856))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.3
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.2...v0.0.3)
