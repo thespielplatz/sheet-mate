@@ -1,13 +1,13 @@
 import z from 'zod'
-import { getScannerConfig } from '../utils/getScannerConfig'
+import { getScannerConfig } from '../../utils/getScannerConfig'
 
 const InputSchema = z.object({
-  id: z.string().describe('item id'),
+  id: z.string().describe('Id of a QR code scanner mate'),
 })
 
-const ScannerItemDto = z.object({
+const ScannerDto = z.object({
   name: z.string(),
-}).nullable()
+})
 
 export default defineLoggedInEventHandler(async (event, user) => {
   const query = await getValidatedQuery(event, InputSchema.parse)
@@ -21,11 +21,7 @@ export default defineLoggedInEventHandler(async (event, user) => {
     })
   }
 
-  throw createError({
-    status: 501,
-    message: 'Not implemented',
-  })
-
-  return ScannerItemDto.parse({
+  return ScannerDto.parse({
+    name: scannerConfig.name,
   })
 })

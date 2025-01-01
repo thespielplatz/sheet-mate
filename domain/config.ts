@@ -9,8 +9,9 @@ const InventoryScannerSchema = z.object({
   userId: z.string(),
   name: z.string(),
   nocoDb: z.object({
-    url: z.string(),
+    domain: z.string(),
     apiToken: z.string(),
+    table: z.string(),
   }),
 })
 

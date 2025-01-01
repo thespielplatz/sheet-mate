@@ -1,7 +1,6 @@
 <template>
   <div  v-if="state == 'scanning'" class="fixed">
   <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
-
   ></StreamBarcodeReader>
 </div>
   <TypographyHeadlineDefault>{{ name }}</TypographyHeadlineDefault>
@@ -27,7 +26,9 @@ const name = ref('')
 const decode = ref('')
 
 onMounted(async () => {
+  await loadInventory('testIdExists')
   const scannerInfo = await $auth.$fetch('/api/scanner', {
+    method: 'GET',
     query: {
       id: route.params.id
     }
@@ -40,12 +41,22 @@ const openScanner = () => {
 }
 
 const onLoaded = () => {
-  
 }
 
 const onDecode = (data: string) => {
   decode.value = data
-  state.value = 'product'
+  state.value = 'product' 
+}
+
+const loadInventory = async (inventoryId: string) => {
+  const inventoryData = await $auth.$fetch('/api/scanner/inventory', {
+    method: 'GET',
+    query: {
+      scannerId: route.params.id,
+      inventoryId,
+    }
+  })
+  alert(JSON.stringify(inventoryData))
 }
 
 </script>

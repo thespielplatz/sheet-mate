@@ -1,4 +1,3 @@
-import { useRouter } from 'vue-router'
 export default class Auth {
   _accessToken: string | null = null
 
