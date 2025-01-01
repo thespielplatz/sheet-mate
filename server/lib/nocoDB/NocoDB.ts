@@ -44,6 +44,19 @@ export default class NocoDB {
     return UpdateRecordResultSchema.parse(result)
   }
 
+  async createRecord(data: Record<string, any>) {
+    const url = `${this.getTableUrl}/records`
+
+    const result = await $fetch(url, {
+      method: 'POST',
+      headers: {
+        'xc-token': this.apiToken,
+      },
+      body: data,
+    })
+    return UpdateRecordResultSchema.parse(result)
+  }
+
   async getTableMeta() {
     const url = `${this.domain}/api/v2/meta/tables/${this.table}`
     const result = await $fetch(url, {

@@ -9,19 +9,19 @@ const InputSchema = z.object({
 
 export const InventoryItemDto = z.object({
   Id: z.number(),
-  name: z.string(),
+  name: z.string().nullable(),
   code: z.string(),
   CreatedAt: z.string(),
-  UpdatedAt: z.string(),
+  UpdatedAt: z.string().nullable(),
   amount: z.number(),
-}).passthrough().transform((item) => {
+}).passthrough().transform((item) => {  
   const transformed = {
     id: item.Id,
     name: item.name,
     code: item.code,
     amount: item.amount,
     createdAt: new Date(item.CreatedAt).getTime(),
-    updatedAt: new Date(item.UpdatedAt).getTime(),
+    updatedAt: item.UpdatedAt ? new Date(item.UpdatedAt).getTime() : null,
     fields: {},
   }
 

@@ -15,14 +15,18 @@
     </TypographyButtonDefault>
   </div>
   <div v-if="state == 'edit'">
-    <div class="font-bold text-2xl">{{ inventoryData?.name }}</div>
-    <div class="text-xs text-slate-600">Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}</div>
+    <div class="font-bold text-2xl">Name: {{ inventoryData?.name }}<span v-if="inventoryData == undefined" class="italic text-slate-600">empty</span></div>
+    <div class="flex gap-1">
+      <TypographyBadge>Code: {{ code }}</TypographyBadge>
+      <TypographyBadge v-if="inventoryData === undefined"  state="success">New</TypographyBadge>
+      <div v-if="inventoryData" class="text-xs text-slate-600">Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}</div>
+    </div>
     <div class="font-bold text-xl">Amount</div>
     <div class="flex gap-2">
       <div class="
       px-3 h-14 bg-slate-200 rounded text-black border border-slate-300 
       text-4xl
-      flex items-center justify-center">{{ inventoryData?.amount }}</div>
+      flex items-center justify-center">{{ amount }}</div>
       <TypographyButtonDefault class="text-4xl w-14" @click="saveItem({ amount: amount + 1 });">
         +1
       </TypographyButtonDefault>    
@@ -53,11 +57,9 @@ const decode = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
 
 let code = ''
-let amount = 0
+const amount = ref(0)
 
 onMounted(async () => {
-  await loadItem('testIdExists')
-  return
   try {
     const scannerInfo = await $auth.$fetch('/api/scanner', {
       method: 'GET',
@@ -86,7 +88,7 @@ const onDecode = (data: string) => {
 
 const loadItem = async (codeToLoad: string) => {
   code = codeToLoad
-  amount = 0
+  amount.value = 0
   state.value = 'loading'
 
   try {
@@ -97,8 +99,8 @@ const loadItem = async (codeToLoad: string) => {
         code,
       }
     })
-    code = inventoryData.value?.code || 'error'
-    amount = inventoryData.value?.amount || 0
+    code = inventoryData.value?.code || codeToLoad
+    amount.value = inventoryData.value?.amount || 0
     state.value = 'edit'
   } catch (e) {
     showErrorAndReset(e)

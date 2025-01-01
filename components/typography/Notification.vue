@@ -39,12 +39,12 @@ const localState = ref(state)
 const styleClass = computed(() => {
   switch (localState.value) {
     case 'error':
-      return 'text-white bg-red-700  border-red-900'
+      return 'text-white bg-red-700 border-red-900'
     case 'success':
-      return 'text-white bg-green-700  border-green-900'
+      return 'text-white bg-green-700 border-green-900'
     case 'normal':
     default:
-      return 'text-white bg-slate-500  border-slate-900'
+      return 'text-white bg-slate-500 border-slate-900'
   }
 })
 
