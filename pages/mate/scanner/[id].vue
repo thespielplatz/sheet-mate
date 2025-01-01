@@ -36,7 +36,7 @@
 <script setup lang="ts">
 
 import { StreamBarcodeReader } from 'vue-barcode-reader'
-import { InventoryItemDto } from '~/server/api/scanner/inventory.get'
+import { InventoryItemDto } from '~/server/api/scanner/item.get'
 
 const { $auth } = useNuxtApp()
 const route = useRoute()
@@ -77,7 +77,7 @@ const loadItem = async (inventoryId: string) => {
   state.value = 'loading'
 
   try {
-    inventoryData.value = await $auth.$fetch('/api/scanner/inventory', {
+    inventoryData.value = await $auth.$fetch('/api/scanner/item', {
     method: 'GET',
     query: {
       scannerId: route.params.id,
