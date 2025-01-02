@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="absolute -top-5 left-0 -right-0 z-50">
+    <div class="absolute -top-3 left-0 -right-0 z-50">
       <TypographyNotification ref="notification" :isVisible="false" />
     </div>
   </div>
@@ -78,7 +78,10 @@ onMounted(async () => {
     })
     name.value = scannerInfo.name
   } catch (e) {
-    notification.value.show(`Initial Error: ${getFetchErrorMessage(e)}`)
+    notification.value.show({
+      message: `Initial Error: ${getFetchErrorMessage(e)}`,
+      state: 'error',
+    })
     state.value = 'error'
   }
 })
