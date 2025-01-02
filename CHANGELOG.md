@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.4...v0.0.5)
+
+### 🩹 Fixes
+
+- Mobile layout height fix ([9471740](https://github.com/thespielplatz/sheet-mate/commit/9471740))
+- Local http development with cookie ([860edeb](https://github.com/thespielplatz/sheet-mate/commit/860edeb))
+
+### 🏡 Chore
+
+- Add https development ([63ed774](https://github.com/thespielplatz/sheet-mate/commit/63ed774))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.4
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.3...v0.0.4)
