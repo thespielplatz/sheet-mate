@@ -1,6 +1,5 @@
 <template>
-  <div class="pt-20">
-    
+  <div class="pt-5">
     <div class="text-2xl font-black flex gap-1 items-center">
       <b-icon-file-earmark-spreadsheet />
       <div>Sheet Mate</div>

@@ -1,18 +1,27 @@
 <template>
   <div class="relative">
-    <div class="absolute -top-5 left-0 right-0 z-50">
+    <div class="absolute -top-5 left-0 -right-0 z-50">
       <TypographyNotification ref="notification" :isVisible="false" />
     </div>
-  </div>
-  <div v-if="state == 'scanning'" class="fixed">
-    <StreamBarcodeReader  @decode="onDecode" @loaded="onLoaded"
-    ></StreamBarcodeReader>
   </div>
   <TypographyHeadlineDefault>{{ name }}</TypographyHeadlineDefault>
   <div class="pt-4 flex justify-center items-center">
     <TypographyButtonDefault v-if="state == 'start' || state == 'edit'" @click="openScanner" class="text-4xl">
       <b-icon-upc-scan />
     </TypographyButtonDefault>
+  </div>
+  <div v-if="state == 'scanning'" class="fixed inset-0">
+    <div class="relative w-full h-full bg-black">
+      <TypographyButtonDefault 
+        @click="cancelScanner" 
+        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-4xl z-10 text-white bg-red-800">
+        <b-icon-x-circle />
+      </TypographyButtonDefault>
+
+      <div class="flex justify-center items-center h-full">
+        <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded" />
+        </div>
+    </div>
   </div>
   <div v-if="state == 'edit'">
     <div class="font-bold text-2xl">Name: {{ inventoryData?.name }}<span v-if="inventoryData == undefined" class="italic text-slate-600">empty</span></div>
@@ -76,6 +85,10 @@ onMounted(async () => {
 
 const openScanner = () => {
   state.value ='scanning'
+}
+
+const cancelScanner = () => {
+  state.value = 'start'
 }
 
 const onLoaded = () => {
