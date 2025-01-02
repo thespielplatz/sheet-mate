@@ -4,7 +4,7 @@ export const setRefreshTokenAsCookie = async ({ event, userId, sessionId }: { ev
   const newRefreshToken = await createRefreshToken({ userId, sessionId })
   setCookie(event, useRuntimeConfig().authModule.refreshCookieName, newRefreshToken, {
     httpOnly: true,
-    secure: true,
+    secure: isDevelopmentMode() ? false : true,
     sameSite: 'strict',
   })
 }
