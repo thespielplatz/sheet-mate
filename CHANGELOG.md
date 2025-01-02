@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.6
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.5...v0.0.6)
+
+### 🤖 CI
+
+- Update dockerfile workdir ([6484318](https://github.com/thespielplatz/sheet-mate/commit/6484318))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.5
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.4...v0.0.5)
