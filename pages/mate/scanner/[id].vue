@@ -62,7 +62,6 @@ const notification = ref()
 
 const state = ref<'start' | 'scanning' | 'loading' | 'edit' | 'error'>('start')
 const name = ref('')
-const decode = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
 
 let code = ''
@@ -98,7 +97,7 @@ const onLoaded = () => {
 }
 
 const onDecode = (data: string) => {
-  decode.value = data
+  data = data.trim()
   loadItem(data)
 }
 
