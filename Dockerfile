@@ -8,7 +8,7 @@ ARG PORT=3000
 
 ENV NODE_ENV=production
 
-WORKDIR /src
+WORKDIR /app
 
 # Build
 FROM base AS build
@@ -31,9 +31,9 @@ FROM base
 ENV PORT=$PORT
 #ENV HOST 0.0.0.0
 
-COPY --from=build /src/.output /src/.output
-COPY package.json /src
+COPY --from=build /app/.output /app/.output
+COPY package.json /app
 # Optional, only needed if you rely on unbundled dependencies
-# COPY --from=build /src/node_modules /src/node_modules
+# COPY --from=build /app/node_modules /app/node_modules
 
 CMD [ "node", ".output/server/index.mjs" ]
