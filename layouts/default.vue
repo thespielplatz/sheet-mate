@@ -1,5 +1,5 @@
 <template>
-  <div class="font-sans min-h-screen flex flex-col">
+  <div class="font-sans min-h-[var(--app-height)] flex flex-col">
     <LayoutTheHeader />
     <CenterContainer class="pt-5 flex-1" >
       <NuxtPage/>
