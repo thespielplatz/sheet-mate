@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v0.0.8
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.7...v0.0.8)
+
+### 🚀 Enhancements
+
+- **auth:** Add redirectOnLoggedOut async call ([6ea3884](https://github.com/thespielplatz/sheet-mate/commit/6ea3884))
+
+### 🩹 Fixes
+
+- **scanner:** Add zxing library to output ([adb5678](https://github.com/thespielplatz/sheet-mate/commit/adb5678))
+- **scanner:** Refresh token timing ([b7d9363](https://github.com/thespielplatz/sheet-mate/commit/b7d9363))
+- **scanner:** Refresh token timing on inventory item page ([f116c62](https://github.com/thespielplatz/sheet-mate/commit/f116c62))
+- **scanner:** Refresh token timing on inventory item page part2 ([059bbb2](https://github.com/thespielplatz/sheet-mate/commit/059bbb2))
+
+### 🏡 Chore
+
+- **auth:** Add more refresh cookie settings to module config ([1efc27b](https://github.com/thespielplatz/sheet-mate/commit/1efc27b))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.7
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.6...v0.0.7)
