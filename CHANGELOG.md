@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- **scanner:** Add edit button open item in nocodb ([0f110f9](https://github.com/thespielplatz/sheet-mate/commit/0f110f9))
+
+### 🩹 Fixes
+
+- **scanner:** Show initial error in red ([c3d381d](https://github.com/thespielplatz/sheet-mate/commit/c3d381d))
+- **scanner:** Trim qr code scanner data ([1cfa6c6](https://github.com/thespielplatz/sheet-mate/commit/1cfa6c6))
+
+### 🏡 Chore
+
+- **auth:** Add info about cookie secure true/false ([428d1b2](https://github.com/thespielplatz/sheet-mate/commit/428d1b2))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.6
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.5...v0.0.6)
