@@ -15,7 +15,6 @@ export default defineLoggedInEventHandler(async (event, user) => {
 
   const inventoryScanners = mapItems(user.id, 'intentoryScanner', config.inventoryScanners)
   const cmcImporters = mapItems(user.id, 'cmcImporter', config.cmcImporters)
-  console.log('cmcImporters', cmcImporters)
 
   return DashboardDto.parse([...inventoryScanners, ...cmcImporters])
 })

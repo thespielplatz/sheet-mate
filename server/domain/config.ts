@@ -24,10 +24,15 @@ const CmcImporterSchema = z.object({
   name: z.string(),
 })
 
+const CoinmarketCapSchema = z.object({
+  apiKey: z.string(),
+})
+
 export const ConfigSchema = z.object({
   users: z.array(UserSchema).default([]).optional(),
   inventoryScanners: z.array(InventoryScannerSchema).default([]).optional(),
   cmcImporters: z.array(CmcImporterSchema).default([]).optional(),
+  coinmarketcap: CoinmarketCapSchema.optional(),
 })
 
 export type ConfigType = z.infer<typeof ConfigSchema>
