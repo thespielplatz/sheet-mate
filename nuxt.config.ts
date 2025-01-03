@@ -32,6 +32,9 @@ export default defineNuxtConfig({
     typeCheck: true
   },
   build: {
-    transpile: ['vue-barcode-reader'],
+    transpile: [
+      'vue-barcode-reader',
+      '@zxing/library',
+    ],
   },
 })
