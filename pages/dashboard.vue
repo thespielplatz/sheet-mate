@@ -11,16 +11,12 @@
 
 <script setup lang="ts">
 
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
 const { $auth } = useNuxtApp()
 
 const list = ref<{ id: string, name: string }[]>([])
 
-onMounted(async () => {
-  if (!$auth.isLoggedIn) {
+onBeforeMount(async () => {
+  if (!await $auth.isLoggedIn()) {
     return await navigateTo('/')
   }
   list.value = await $auth.$fetch('/api/dashboard', {

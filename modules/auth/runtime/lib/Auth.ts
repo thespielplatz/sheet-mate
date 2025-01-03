@@ -1,5 +1,6 @@
 export default class Auth {
-  _accessToken: string | null = null
+  accessToken: string | null = null
+  initialRefreshPromise: Promise<boolean> | null = null
 
   async loginWithAccessKey(accessKey: string) {
     try {
@@ -7,52 +8,68 @@ export default class Auth {
         method: 'POST',
         body: { accessKey },
       })
-      this._accessToken = accessToken
+      this.accessToken = accessToken
       return true
     } catch (e) {
-      this._accessToken = null
+      this.accessToken = null
       return false
     }
   }
 
   async refresh() {
-    console.log('refreshing')
-    try {
-      const { accessToken } = await $fetch('/api/auth/refresh')
-      this._accessToken = accessToken
-      return true
-    } catch (e) {
-      this._accessToken = null
-      return false
-    }    
+    if (this.initialRefreshPromise) {
+      return this.initialRefreshPromise
+    }
+
+    this.initialRefreshPromise = this.startRefresh()
+    return this.initialRefreshPromise
   }
 
   async logout() {
     try {
       const success = await $fetch('/api/auth/logout')
-      this._accessToken = null
+      this.accessToken = null
       return success
     } catch (e) {
-      this._accessToken = null
+      this.accessToken = null
       return false
     }        
   }
 
   async redirectIfLoggedIn() {
-    if (this.isLoggedIn) {
+    const loggedIn = await this.isLoggedIn()
+    console.log('redirectIfLoggedIn', loggedIn)
+    if (loggedIn) {
       await navigateTo(useRuntimeConfig().public.authModule.redirectOnLoggedIn, { replace: true })
     }
   }
 
-  get isLoggedIn() {
-    return this._accessToken !== null
+  async isLoggedIn() {
+    if (!this.initialRefreshPromise) {
+      this.initialRefreshPromise = this.startRefresh()
+    }    
+    await this.initialRefreshPromise
+    return this.accessToken !== null
   }
-
+  
   get $fetch() {
     return $fetch.create({
       headers: {
-        Authorization: `${this._accessToken}`
+        Authorization: `${this.accessToken}`
       }
     })
+  }
+
+  private async startRefresh() {
+    try {
+      const { accessToken } = await $fetch('/api/auth/refresh')
+      this.accessToken = accessToken
+      console.log('refresh - success')
+      return true
+    } catch (e) {
+      this.accessToken = null
+      console.log('refresh - nope')
+      return false
+    }
   }
 }
