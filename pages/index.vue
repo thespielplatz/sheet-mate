@@ -36,7 +36,7 @@ const login = async () => {
   }
 }
 
-onBeforeMount(async () => {
+onMounted(async () => {
   await $auth.redirectIfLoggedIn()
 })
 

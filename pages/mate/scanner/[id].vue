@@ -78,13 +78,10 @@ const baseInfo = ref<OutputDtoType>(null)
 let code = ''
 const amount = ref(0)
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (!await $auth.isLoggedIn()) {
     return await navigateTo('/')
   }
-})
-
-onMounted(async () => {
   try {
     baseInfo.value = await $auth.$fetch('/api/scanner', {
       method: 'GET',

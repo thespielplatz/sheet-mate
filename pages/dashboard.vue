@@ -15,7 +15,7 @@ const { $auth } = useNuxtApp()
 
 const list = ref<{ id: string, name: string }[]>([])
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (!await $auth.isLoggedIn()) {
     return await navigateTo('/')
   }
