@@ -2,7 +2,10 @@ import { z } from 'zod'
 import fs from 'fs'
 import path from 'path'
 
-import { UserSchema } from '../modules/auth/runtime/server/lib/UserSchema'
+const UserSchema = z.object({
+  id: z.string(),
+  accessKey: z.string(),
+})
 
 const InventoryScannerSchema = z.object({
   id: z.string(),

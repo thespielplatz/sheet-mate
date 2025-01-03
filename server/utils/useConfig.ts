@@ -1,4 +1,4 @@
-import { parseConfig, type ConfigType } from '~/domain/config'
+import { parseConfig, type ConfigType } from '../domain/config'
 
 let configCache: ConfigType | null = null
 

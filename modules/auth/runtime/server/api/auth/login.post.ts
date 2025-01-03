@@ -7,9 +7,7 @@ const InputSchema = z.object({
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, InputSchema.parse)
   
-  const config = useConfig()
-
-  const user = config.users?.find(user => user.accessKey === body.accessKey)
+  const user = useUserHandler().get().login(body.accessKey)
   if (!user) {
     throw createError({
       status: 401,

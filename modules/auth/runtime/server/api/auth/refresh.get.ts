@@ -1,7 +1,6 @@
 import z from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const config = useConfig()
   const refreshToken = getCookie(event, useRuntimeConfig().authModule.refreshCookieName)
   if (!refreshToken) {
     deleteCookie(event, useRuntimeConfig().authModule.refreshCookieName)
