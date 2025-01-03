@@ -18,9 +18,16 @@ const InventoryScannerSchema = z.object({
   }),
 })
 
+const CmcImporterSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  name: z.string(),
+})
+
 export const ConfigSchema = z.object({
   users: z.array(UserSchema).default([]).optional(),
   inventoryScanners: z.array(InventoryScannerSchema).default([]).optional(),
+  cmcImporters: z.array(CmcImporterSchema).default([]).optional(),
 })
 
 export type ConfigType = z.infer<typeof ConfigSchema>
