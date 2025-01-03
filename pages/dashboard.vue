@@ -16,9 +16,7 @@ const { $auth } = useNuxtApp()
 const list = ref<{ id: string, name: string }[]>([])
 
 onMounted(async () => {
-  if (!await $auth.isLoggedIn()) {
-    return await navigateTo('/')
-  }
+  await $auth.redirectIfLoggedOut()
   list.value = await $auth.$fetch('/api/dashboard', {
     method: 'GET',
   })

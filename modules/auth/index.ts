@@ -27,6 +27,7 @@ export default defineNuxtModule({
     },
     public: {
       redirectOnLoggedIn: '/dashboard',
+      redirectOnLoggedOut: '/',
     },
   },
   hooks: {},

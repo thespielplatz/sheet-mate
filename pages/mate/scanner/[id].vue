@@ -79,9 +79,7 @@ let code = ''
 const amount = ref(0)
 
 onMounted(async () => {
-  if (!await $auth.isLoggedIn()) {
-    return await navigateTo('/')
-  }
+  await $auth.redirectIfLoggedOut()
   try {
     baseInfo.value = await $auth.$fetch('/api/scanner', {
       method: 'GET',

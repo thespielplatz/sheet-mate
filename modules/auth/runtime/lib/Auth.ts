@@ -44,6 +44,14 @@ export default class Auth {
     }
   }
 
+  async redirectIfLoggedOut() {
+    const loggedIn = await this.isLoggedIn()
+    console.log('redirectIfLoggedOut', loggedIn)
+    if (!loggedIn) {
+      await navigateTo(useRuntimeConfig().public.authModule.redirectOnLoggedOut, { replace: true })
+    }
+  }
+
   async isLoggedIn() {
     if (!this.initialRefreshPromise) {
       this.initialRefreshPromise = this.startRefresh()
