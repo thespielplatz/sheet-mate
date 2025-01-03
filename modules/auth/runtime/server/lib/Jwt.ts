@@ -26,7 +26,7 @@ export default class Jwt {
 
     let keyPair: KeyPair
     if (!fs.existsSync(privateKeyFile)) {
-      consola.info(`Generating new JWT Private Key at ${keyPath}`)
+      consola.success(`Generating new JWT Private Key at ${keyPath}`)
       fs.mkdirSync(keyPath, { recursive: true })
       keyPair = await jose.generateKeyPair(Algorithm_RSA256)
       const spkiPem = await jose.exportSPKI(keyPair.publicKey)
@@ -40,7 +40,7 @@ export default class Jwt {
         publicKey: await jose.importSPKI(publicKeyFileData, Algorithm_RSA256),
         privateKey: await jose.importPKCS8(privateKeyFileData, Algorithm_RSA256)
       }
-      consola.success(`Loaded JWT keys from at ${keyPath}`)
+      consola.info(`Loaded JWT keys from at ${keyPath}`)
     }
 
     return new Jwt(keyPair)
