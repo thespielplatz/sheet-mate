@@ -1,9 +1,10 @@
 import z from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const refreshToken = getCookie(event, useRuntimeConfig().authModule.refreshCookieName)
+  const refreshCookieName = useRuntimeConfig().authModule.refreshCookie.name
+  const refreshToken = getCookie(event, refreshCookieName)
   if (!refreshToken) {
-    deleteCookie(event, useRuntimeConfig().authModule.refreshCookieName)
+    deleteCookie(event, refreshCookieName)
     throw createError({
       status: 400,
       message: "No refresh token cookie",
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event) => {
       accessToken
     }
   } catch (err) {
-    deleteCookie(event, useRuntimeConfig().authModule.refreshCookieName)
+    deleteCookie(event, refreshCookieName)
     throw createError({
       status: 400,
       message: "Invalid refresh token",

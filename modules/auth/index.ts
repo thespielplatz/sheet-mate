@@ -1,8 +1,10 @@
-import { defineNuxtModule, createResolver, addRouteMiddleware, addPlugin, addServerScanDir } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addPlugin, addServerScanDir } from '@nuxt/kit'
 import consola from 'consola'
 import { defu } from 'defu'
 
 import type { Nuxt } from 'nuxt/schema'
+
+import isDevelopmentMode from './runtime/server/utils/isDevelopmentMode'
 
 export default defineNuxtModule({
   meta: {
@@ -17,7 +19,12 @@ export default defineNuxtModule({
     audience: 'not-set',
     refreshTokenExpirationTime: '28 days',
     accessTokenExpirationTime: '5 min',
-    refreshCookieName: 'refresh_token',
+    refreshCookie: {
+      name: 'refresh_token',
+      secure: true,
+      sameSite: 'lax',
+      expiresInDays: 25,
+    },
     public: {
       redirectOnLoggedIn: '/dashboard',
     },
@@ -25,6 +32,10 @@ export default defineNuxtModule({
   hooks: {},
   async setup(moduleOptions, nuxt) {
     consola.info('Installing Auth module')
+
+    if (isDevelopmentMode()) {
+      moduleOptions.refreshCookie.secure = false
+    }
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       authModule: moduleOptions,
