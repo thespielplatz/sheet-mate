@@ -1,14 +1,18 @@
 import z from 'zod'
 import { getScannerConfig } from '../../utils/getScannerConfig'
 import checkTableMetadata from '~/server/domain/scanner/checkTableMetadata'
+import { TableMetadataResultSchema } from '~/server/lib/nocoDB/TableMetadataResultSchema'
 
 const InputSchema = z.object({
   id: z.string().describe('Id of a QR code scanner mate'),
 })
 
-const ScannerDto = z.object({
-  name: z.string(),
-})
+export const OutputDto = TableMetadataResultSchema.extend({
+  name: z.string().describe('Name of the scanner'),
+  domain: z.string(),
+  table: z.string(),
+}).nullable()
+export type OutputDtoType = z.infer<typeof OutputDto>
 
 export default defineLoggedInEventHandler(async (event, user) => {
   const query = await getValidatedQuery(event, InputSchema.parse)
@@ -32,7 +36,10 @@ export default defineLoggedInEventHandler(async (event, user) => {
     })
   }
 
-  return ScannerDto.parse({
+  return OutputDto.parse({ 
+    ...result,
+    domain: scannerConfig.nocoDb.domain,
     name: scannerConfig.name,
+    table: scannerConfig.nocoDb.table,
   })
 })

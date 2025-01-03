@@ -4,6 +4,7 @@
     'border border-slate-900', 
     'hover:bg-slate-900',
     styleClass,
+    disabled ? 'cursor-not-allowed opacity-50 hover:bg-slate-700' : 'cursor-pointer',
     ]">
     <slot />
   </button> 
@@ -13,7 +14,7 @@
 
 const model = defineModel()
 
-import { defineProps, toRefs } from 'vue'
+import { defineProps } from 'vue'
 
 const value = ref('')
 
@@ -22,6 +23,10 @@ const props = defineProps({
     type: String as PropType<'normal' | 'small'>,
     default: 'normal'
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const styleClass = computed(() => {
@@ -33,7 +38,5 @@ const styleClass = computed(() => {
       return ''
   }
 })
-
-const { ...attrs } = toRefs(props)
 
 </script>

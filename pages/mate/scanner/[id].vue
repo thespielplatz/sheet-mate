@@ -4,7 +4,7 @@
       <TypographyNotification ref="notification" :isVisible="false" />
     </div>
   </div>
-  <TypographyHeadlineDefault>{{ name }}</TypographyHeadlineDefault>
+  <TypographyHeadlineDefault>{{ baseInfo?.name }}</TypographyHeadlineDefault>
   <div class="pt-4 flex justify-center items-center">
     <TypographyButtonDefault v-if="state == 'start' || state == 'edit'" @click="openScanner" class="text-4xl">
       <b-icon-upc-scan />
@@ -17,7 +17,6 @@
         class="absolute top-4 left-1/2 transform -translate-x-1/2 text-4xl z-10 text-white bg-red-800">
         <b-icon-x-circle />
       </TypographyButtonDefault>
-
       <div class="flex justify-center items-center h-full">
         <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded" />
         </div>
@@ -30,6 +29,17 @@
       <TypographyBadge v-if="inventoryData === undefined"  state="success">New</TypographyBadge>
       <div v-if="inventoryData" class="text-xs text-slate-600">Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}</div>
     </div>
+    <div class="h-2"></div>
+    <a v-if="inventoryData" :href="createNocoDBLink()" target="_blank">
+      <TypographyButtonDefault class="flex gap-2 items-center">
+        <b-icon-pencil-square class="my-1 text-4xl"/>
+        <div class="italic">Open in NocoDB</div>
+      </TypographyButtonDefault>
+    </a>
+    <TypographyButtonDefault v-else class="flex gap-2 items-center" disabled>
+        <b-icon-pencil-square class="my-1 text-4xl"/>
+        <div class="italic">Item not created yet</div>
+      </TypographyButtonDefault>
     <div class="font-bold text-xl">Amount</div>
     <div class="flex gap-2">
       <div class="
@@ -53,6 +63,7 @@
 <script setup lang="ts">
 
 import { StreamBarcodeReader } from 'vue-barcode-reader'
+import { type OutputDtoType } from '~/server/api/scanner/index.get'
 import { InventoryItemDto } from '~/server/api/scanner/item.get'
 
 const { $auth } = useNuxtApp()
@@ -61,26 +72,26 @@ const route = useRoute()
 const notification = ref()
 
 const state = ref<'start' | 'scanning' | 'loading' | 'edit' | 'error'>('start')
-const name = ref('')
 const inventoryData = ref<InventoryItemDto>(null)
+const baseInfo = ref<OutputDtoType>(null)
 
 let code = ''
 const amount = ref(0)
 
 onMounted(async () => {
   try {
-    const scannerInfo = await $auth.$fetch('/api/scanner', {
+    baseInfo.value = await $auth.$fetch('/api/scanner', {
       method: 'GET',
       query: {
         id: route.params.id
       }
     })
-    name.value = scannerInfo.name
   } catch (e) {
     notification.value.show({
       message: `Initial Error: ${getFetchErrorMessage(e)}`,
       state: 'error',
     })
+    baseInfo.value = null
     state.value = 'error'
   }
 })
@@ -143,6 +154,15 @@ const saveItem = async({ amount }: { amount: number }) => {
   } catch (e) {
     showErrorAndReset(e)
   }
+}
+
+const createNocoDBLink = () => {
+  return createNocoDBUrl({
+    domain: baseInfo.value?.domain || '',
+    base: baseInfo.value?.base_id || '',
+    table: baseInfo.value?.table || '',
+    id: inventoryData.value?.id || 0,
+  })
 }
 
 const showErrorAndReset = (e: any) => {
