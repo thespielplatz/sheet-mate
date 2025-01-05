@@ -17,7 +17,10 @@ export default defineNuxtConfig({
       version: packageJsonTyped.meta?.['special-version'] || packageJsonTyped.version,
       githubLink: 'https://github.com/thespielplatz/sheet-mate'
     },
-  },  
+  },
+  modules: [
+    '@thespielplatz/nuxt-auth',
+  ],
   css: [
     '@/assets/css/tailwind.css',
     '@/assets/css/global.css',

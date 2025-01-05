@@ -13,6 +13,7 @@
     "bump-patch": "npx changelogen@latest --release"
   },
   "dependencies": {
+    "@thespielplatz/nuxt-auth": "^0.0.9",
     "bootstrap-icons-vue": "^1.11.3",
     "changelogen": "^0.5.7",
     "jose": "^5.9.6",
