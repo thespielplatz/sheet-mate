@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v0.0.9
+
+[compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- **cmc:** Add cmc overview page ([43f040b](https://github.com/thespielplatz/sheet-mate/commit/43f040b))
+
+### 💅 Refactors
+
+- Use auth-module from npm ([ebfe264](https://github.com/thespielplatz/sheet-mate/commit/ebfe264))
+- Move IUserProvider implementation to extra file ([21a8e38](https://github.com/thespielplatz/sheet-mate/commit/21a8e38))
+
+### 🏡 Chore
+
+- **cmc:** Add cmc api class ([8a93d67](https://github.com/thespielplatz/sheet-mate/commit/8a93d67))
+- Update nuxt-auth module and small fix ([2c90bde](https://github.com/thespielplatz/sheet-mate/commit/2c90bde))
+- Update nuxt-auth module ([180a5d9](https://github.com/thespielplatz/sheet-mate/commit/180a5d9))
+
+### ❤️ Contributors
+
+- Thespielplatz <informatics@gmx.net>
+
 ## v0.0.8
 
 [compare changes](https://github.com/thespielplatz/sheet-mate/compare/v0.0.7...v0.0.8)
