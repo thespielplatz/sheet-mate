@@ -23,7 +23,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@thespielplatz/nuxt-auth": "^0.0.13",
+    "@thespielplatz/nuxt-auth": "^1.0.0",
     "@types/vue-barcode-reader": "^0.0.3",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
