@@ -2,7 +2,7 @@ import consola from 'consola'
 
 export default defineNitroPlugin((nitroApp) => {
   consola.info('01 Configuring Auth Plugin')
-  useUserHandler().set({
+  useUserProvider().set({
     login: (accessKey) => {
       const user = useConfig().users?.find((user) => user.accessKey === accessKey)
       if (!user) {

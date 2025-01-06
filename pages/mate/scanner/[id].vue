@@ -65,6 +65,7 @@
 import { StreamBarcodeReader } from 'vue-barcode-reader'
 import { type OutputDtoType } from '~/server/api/scanner/index.get'
 import { InventoryItemDto } from '~/server/api/scanner/item.get'
+import { toLocalizedDateString } from '~/utils/toLocalizedDateString'
 
 const { $auth } = useNuxtApp()
 const route = useRoute()
@@ -174,6 +175,5 @@ const showErrorAndReset = (e: any) => {
   })
   state.value = 'start'
 }
-
 
 </script>

@@ -1,4 +1,4 @@
-export default (timestamp: number) => {
+export const toLocalizedDateString = (timestamp: number) => {
   return new Date(timestamp).toLocaleDateString("de-DE", {
       year: "numeric",
       month: "2-digit",
