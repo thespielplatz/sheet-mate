@@ -1,6 +1,16 @@
 # Sheet Mate
 
-[![MIT License Badge](docs/img/license-badge.svg)](LICENSE)
+<p>
+  <a href="https://github.com/thespielplatz/sheet-mate/">
+    <img src="https://img.shields.io/github/package-json/v/thespielplatz/sheet-mate?color=F7941E" alt="Licence">
+  </a>
+  <a href="https://github.com/thespielplatz/sheet-mate/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/thespielplatz/sheet-mate?color=F7941E" alt="Licence">
+  </a>
+  <a href="https://github.com/thespielplatz/nuxt-auth/stargazers">
+    <img src="https://img.shields.io/github/stars/thespielplatz/sheet-mate.svg?style=flat&color=F7941E" alt="Stars">
+  </a>
+</p>
 
 **Sheet Mate** is the simple tool suite for enhancing your Google Sheets experience.
 
