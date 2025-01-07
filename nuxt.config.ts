@@ -7,37 +7,37 @@ const packageJsonTyped = packageJson as {
 }
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
-  devtools: { 
-    enabled: true,
-  },
-  runtimeConfig: {
-    public: {
-      releasedVersion: packageJsonTyped.version,
-      version: packageJsonTyped.meta?.['special-version'] || packageJsonTyped.version,
-      githubLink: 'https://github.com/thespielplatz/sheet-mate'
-    },
-  },
   modules: [
     '@thespielplatz/nuxt-auth',
   ],
+  devtools: {
+    enabled: true,
+  },
   css: [
     '@/assets/css/tailwind.css',
     '@/assets/css/global.css',
   ],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
+  runtimeConfig: {
+    public: {
+      releasedVersion: packageJsonTyped.version,
+      version: packageJsonTyped.meta?.['special-version'] || packageJsonTyped.version,
+      githubLink: 'https://github.com/thespielplatz/sheet-mate',
     },
-  },
-  typescript: {
-    typeCheck: true
   },
   build: {
     transpile: [
       'vue-barcode-reader',
       '@zxing/library',
     ],
+  },
+  compatibilityDate: '2024-04-03',
+  typescript: {
+    typeCheck: true,
+  },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
 })

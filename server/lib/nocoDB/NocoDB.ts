@@ -26,11 +26,12 @@ export default class NocoDB {
       },
       query: {
         where: `(${field},eq,${value})`,
-      }
+      },
     })
     return RecordsResultSchema.parse(result)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async updateRecord(data: Record<string, any>) {
     const url = `${this.getTableUrl}/records`
 
@@ -44,6 +45,7 @@ export default class NocoDB {
     return UpdateRecordResultSchema.parse(result)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async createRecord(data: Record<string, any>) {
     const url = `${this.getTableUrl}/records`
 
@@ -62,7 +64,7 @@ export default class NocoDB {
     const result = await $fetch(url, {
       headers: {
         'xc-token': this.apiToken,
-      }
+      },
     })
 
     return TableMetadataResultSchema.parse(result)

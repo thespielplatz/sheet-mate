@@ -2,16 +2,20 @@
   <div>
     <TypographyHeadlineDefault>Dashboard</TypographyHeadlineDefault>
     <div class="pt-10 flex flex-col gap-2">
-      <div v-for="item in list" :key="item.id">
-        <TypographyLinkDefault :to="createLink(item)">{{ item.name }}</TypographyLinkDefault>
+      <div
+        v-for="item in list"
+        :key="item.id"
+      >
+        <TypographyLinkDefault :to="createLink(item)">
+          {{ item.name }}
+        </TypographyLinkDefault>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
-import { type DashboardDtoType, type DashboardItemDtoType } from '../server/api/dashboard/index.get'
+import type { DashboardDtoType, DashboardItemDtoType } from '../server/api/dashboard/index.get'
 
 const { $auth } = useNuxtApp()
 
@@ -41,5 +45,4 @@ const createLink = (item: DashboardItemDtoType) => {
   link += `/${item.id}`
   return link
 }
-
 </script>

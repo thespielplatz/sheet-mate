@@ -13,7 +13,7 @@ export const RecordsResultSchema = z.object({
     Id: z.number(),
     CreatedAt: z.string(),
     UpdatedAt: z.string().nullable(),
-    }).passthrough(),
+  }).passthrough(),
   ),
   pageInfo: PageInfoSchema,
 })

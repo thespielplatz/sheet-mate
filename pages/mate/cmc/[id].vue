@@ -1,15 +1,17 @@
 <template>
   <div class="relative">
     <div class="absolute -top-3 left-0 -right-0 z-50">
-      <TypographyNotification ref="notification" :isVisible="false" />
+      <TypographyNotification
+        ref="notification"
+        :is-visible="false"
+      />
     </div>
   </div>
   <TypographyHeadlineDefault>{{ baseInfo?.name }}</TypographyHeadlineDefault>
 </template>
 
 <script setup lang="ts">
-
-import { type OutputDtoType } from '~/server/api/scanner/index.get'
+import type { OutputDtoType } from '~/server/api/scanner/index.get'
 
 const { $auth } = useNuxtApp()
 const route = useRoute()
@@ -24,8 +26,8 @@ onMounted(async () => {
     baseInfo.value = await $auth.$fetch('/api/cmc', {
       method: 'GET',
       query: {
-        id: route.params.id
-      }
+        id: route.params.id,
+      },
     })
   } catch (e) {
     notification.value.show({
@@ -35,5 +37,4 @@ onMounted(async () => {
     baseInfo.value = null
   }
 })
-
 </script>

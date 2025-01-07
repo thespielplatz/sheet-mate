@@ -1,7 +1,4 @@
 import z from 'zod'
-import { getScannerConfig } from '../../utils/getScannerConfig'
-import checkTableMetadata from '~/server/domain/scanner/checkTableMetadata'
-import { TableMetadataResultSchema } from '~/server/lib/nocoDB/TableMetadataResultSchema'
 
 const InputSchema = z.object({
   id: z.string().describe('Id of a QR code scanner mate'),

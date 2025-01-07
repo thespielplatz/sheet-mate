@@ -1,16 +1,15 @@
 <template>
-  <div :class="[
-    'px-1.5 py-0.5 text-xs font-mono rounded-xl',
-    styleClass,
-    ]">
+  <div
+    :class="[
+      'px-1.5 py-0.5 text-xs font-mono rounded-xl',
+      styleClass,
+    ]"
+  >
     <slot />
   </div>
 </template>
 
-
 <script setup lang="ts">
-
-const elementRef = ref<HTMLDivElement | null>(null)
 
 type State = 'normal' | 'success' | 'error'
 
@@ -34,5 +33,4 @@ const styleClass = computed(() => {
       return 'text-white bg-slate-500 border-slate-900'
   }
 })
-
 </script>

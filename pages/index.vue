@@ -5,17 +5,26 @@
       <div>Sheet Mate</div>
     </div>
     <div class="pt-10 flex flex-col gap-2">
-      <TypographyInputDefault v-model="accessKey" type="text" label="Access Key" />
+      <TypographyInputDefault
+        v-model="accessKey"
+        type="text"
+        label="Access Key"
+      />
       <div>
-        <TypographyButtonDefault @click="login">Submit</TypographyButtonDefault>
+        <TypographyButtonDefault @click="login">
+          Submit
+        </TypographyButtonDefault>
       </div>
-      <TypographyNotification ref="errorNotification" :isVisible="false" state="error" />
+      <TypographyNotification
+        ref="errorNotification"
+        :is-visible="false"
+        state="error"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   layout: 'noheader',
 })
@@ -39,5 +48,4 @@ const login = async () => {
 onMounted(async () => {
   await $auth.redirectIfLoggedIn()
 })
-
 </script>

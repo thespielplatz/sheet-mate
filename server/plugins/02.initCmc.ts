@@ -1,7 +1,7 @@
 import consola from 'consola'
 import { initCmc } from '../utils/useCoinmarketcap'
 
-export default defineNitroPlugin((nitroApp) => {
+export default defineNitroPlugin(() => {
   consola.info('02 Init CMC')
   const apiKey = useConfig().coinmarketcap?.apiKey
   if (apiKey) {

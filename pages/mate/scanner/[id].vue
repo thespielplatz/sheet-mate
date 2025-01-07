@@ -1,70 +1,127 @@
 <template>
   <div class="relative">
     <div class="absolute -top-3 left-0 -right-0 z-50">
-      <TypographyNotification ref="notification" :isVisible="false" />
+      <TypographyNotification
+        ref="notification"
+        :is-visible="false"
+      />
     </div>
   </div>
   <TypographyHeadlineDefault>{{ baseInfo?.name }}</TypographyHeadlineDefault>
   <div class="pt-4 flex justify-center items-center">
-    <TypographyButtonDefault v-if="state == 'start' || state == 'edit'" @click="openScanner" class="text-4xl">
+    <TypographyButtonDefault
+      v-if="state == 'start' || state == 'edit'"
+      class="text-4xl"
+      @click="openScanner"
+    >
       <b-icon-upc-scan />
     </TypographyButtonDefault>
   </div>
-  <div v-if="state == 'scanning'" class="fixed inset-0">
+  <div
+    v-if="state == 'scanning'"
+    class="fixed inset-0"
+  >
     <div class="relative w-full h-full bg-black">
-      <TypographyButtonDefault 
-        @click="cancelScanner" 
-        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-4xl z-10 text-white bg-red-800">
+      <TypographyButtonDefault
+        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-4xl z-10 text-white bg-red-800"
+        @click="cancelScanner"
+      >
         <b-icon-x-circle />
       </TypographyButtonDefault>
       <div class="flex justify-center items-center h-full">
-        <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded" />
-        </div>
+        <StreamBarcodeReader
+          @decode="onDecode"
+          @loaded="onLoaded"
+        />
+      </div>
     </div>
   </div>
   <div v-if="state == 'edit'">
-    <div class="font-bold text-2xl">Name: {{ inventoryData?.name }}<span v-if="inventoryData == undefined" class="italic text-slate-600">empty</span></div>
+    <div class="font-bold text-2xl">
+      Name: {{ inventoryData?.name }}<span
+        v-if="inventoryData == undefined"
+        class="italic text-slate-600"
+      >empty</span>
+    </div>
     <div class="flex gap-1">
       <TypographyBadge>Code: {{ code }}</TypographyBadge>
-      <TypographyBadge v-if="inventoryData === undefined"  state="success">New</TypographyBadge>
-      <div v-if="inventoryData" class="text-xs text-slate-600">Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}</div>
+      <TypographyBadge
+        v-if="inventoryData === undefined"
+        state="success"
+      >
+        New
+      </TypographyBadge>
+      <div
+        v-if="inventoryData"
+        class="text-xs text-slate-600"
+      >
+        Last Update: {{ toLocalizedDateString(inventoryData?.updatedAt || 0) }}
+      </div>
     </div>
-    <div class="h-2"></div>
-    <a v-if="inventoryData" :href="createNocoDBLink()" target="_blank">
+    <div class="h-2" />
+    <a
+      v-if="inventoryData"
+      :href="createNocoDBLink()"
+      target="_blank"
+    >
       <TypographyButtonDefault class="flex gap-2 items-center">
-        <b-icon-pencil-square class="my-1 text-4xl"/>
+        <b-icon-pencil-square class="my-1 text-4xl" />
         <div class="italic">Open in NocoDB</div>
       </TypographyButtonDefault>
     </a>
-    <TypographyButtonDefault v-else class="flex gap-2 items-center" disabled>
-        <b-icon-pencil-square class="my-1 text-4xl"/>
-        <div class="italic">Item not created yet</div>
-      </TypographyButtonDefault>
-    <div class="font-bold text-xl">Amount</div>
-    <div class="flex gap-2">
-      <div class="
-      px-3 h-14 bg-slate-200 rounded text-black border border-slate-300 
-      text-4xl
-      flex items-center justify-center">{{ amount }}</div>
-      <TypographyButtonDefault class="text-4xl w-14" @click="saveItem({ amount: amount + 1 });">
-        +1
-      </TypographyButtonDefault>    
-      <TypographyButtonDefault class="text-4xl w-14" @click="saveItem({ amount: amount - 1 })">
-        -1
-      </TypographyButtonDefault>    
+    <TypographyButtonDefault
+      v-else
+      class="flex gap-2 items-center"
+      disabled
+    >
+      <b-icon-pencil-square class="my-1 text-4xl" />
+      <div class="italic">
+        Item not created yet
+      </div>
+    </TypographyButtonDefault>
+    <div class="font-bold text-xl">
+      Amount
     </div>
-    <div class="font-bold text-xl">Fields</div>
+    <div class="flex gap-2">
+      <div
+        class="
+      px-3 h-14 bg-slate-200 rounded text-black border border-slate-300
+      text-4xl
+      flex items-center justify-center"
+      >
+        {{ amount }}
+      </div>
+      <TypographyButtonDefault
+        class="text-4xl w-14"
+        @click="saveItem({ amount: amount + 1 });"
+      >
+        +1
+      </TypographyButtonDefault>
+      <TypographyButtonDefault
+        class="text-4xl w-14"
+        @click="saveItem({ amount: amount - 1 })"
+      >
+        -1
+      </TypographyButtonDefault>
+    </div>
+    <div class="font-bold text-xl">
+      Fields
+    </div>
     <ul>
-      <li v-for="value, key in inventoryData?.fields">{{ key }}: {{ value }}</li>
+      <li
+        v-for="(value, key) in inventoryData?.fields"
+        :key="key"
+      >
+        {{ key }}: {{ value }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-
 import { StreamBarcodeReader } from 'vue-barcode-reader'
-import { type OutputDtoType } from '~/server/api/scanner/index.get'
-import { InventoryItemDto } from '~/server/api/scanner/item.get'
+import type { OutputDtoType } from '~/server/api/scanner/index.get'
+import type { InventoryItemDto } from '~/server/api/scanner/item.get'
 import { toLocalizedDateString } from '~/utils/toLocalizedDateString'
 
 const { $auth } = useNuxtApp()
@@ -85,8 +142,8 @@ onMounted(async () => {
     baseInfo.value = await $auth.$fetch('/api/scanner', {
       method: 'GET',
       query: {
-        id: route.params.id
-      }
+        id: route.params.id,
+      },
     })
   } catch (e) {
     notification.value.show({
@@ -99,7 +156,7 @@ onMounted(async () => {
 })
 
 const openScanner = () => {
-  state.value ='scanning'
+  state.value = 'scanning'
 }
 
 const cancelScanner = () => {
@@ -125,7 +182,7 @@ const loadItem = async (codeToLoad: string) => {
       query: {
         scannerId: route.params.id,
         code,
-      }
+      },
     })
     code = inventoryData.value?.code || codeToLoad
     amount.value = inventoryData.value?.amount || 0
@@ -136,23 +193,22 @@ const loadItem = async (codeToLoad: string) => {
   }
 }
 
-const saveItem = async({ amount }: { amount: number }) => {
+const saveItem = async ({ amount }: { amount: number }) => {
   try {
     inventoryData.value = await $auth.$fetch('/api/scanner/item', {
-    method: 'POST',
-    body: {
-      scannerId: route.params.id,
-      code,
-      amount,
-    }
-  })
+      method: 'POST',
+      body: {
+        scannerId: route.params.id,
+        code,
+        amount,
+      },
+    })
     state.value = 'start'
     notification.value.show({
-    message: `Amount saved!`,
-    autoHide: 2500,
-    state: 'success',
-  })
-
+      message: `Amount saved!`,
+      autoHide: 2500,
+      state: 'success',
+    })
   } catch (e) {
     showErrorAndReset(e)
   }
@@ -167,7 +223,7 @@ const createNocoDBLink = () => {
   })
 }
 
-const showErrorAndReset = (e: any) => {
+const showErrorAndReset = (e: unknown) => {
   notification.value.show({
     message: `Could not load item: ${getFetchErrorMessage(e)}`,
     autoHide: 2500,
@@ -175,5 +231,4 @@ const showErrorAndReset = (e: any) => {
   })
   state.value = 'start'
 }
-
 </script>

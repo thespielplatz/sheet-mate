@@ -30,7 +30,7 @@ export default defineLoggedInEventHandler(async (event, user) => {
     if (record.list.length === 0) {
       id = null
     } else {
-      id = record.list[0].Id      
+      id = record.list[0].Id
     }
 
     if (id) {

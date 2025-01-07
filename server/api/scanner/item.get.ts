@@ -14,7 +14,7 @@ export const InventoryItemDto = z.object({
   CreatedAt: z.string(),
   UpdatedAt: z.string().nullable(),
   amount: z.number(),
-}).passthrough().transform((item) => {  
+}).passthrough().transform((item) => {
   const transformed = {
     id: item.Id,
     name: item.name,
@@ -27,7 +27,7 @@ export const InventoryItemDto = z.object({
 
   // Extract passthrough fields
   transformed.fields = Object.keys(item)
-    .filter((key) => !["Id", "name", "code", "CreatedAt", "UpdatedAt", "amount"].includes(key))
+    .filter(key => !['Id', 'name', 'code', 'CreatedAt', 'UpdatedAt', 'amount'].includes(key))
     .reduce((acc, key) => {
       acc[key] = String(item[key])
       return acc

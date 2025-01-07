@@ -1,18 +1,18 @@
 <template>
-  <div 
+  <div
     ref="elementRef"
     :class="[
       'px-3 py-2 text-sm border rounded',
       'transition-opacity duration-300',
       styleClass,
       localIsVisible ? 'opacity-100' : 'opacity-0',
-    ]">
+    ]"
+  >
     {{ localMessage }}<slot />
   </div>
 </template>
 
 <script setup lang="ts">
-
 const elementRef = ref<HTMLDivElement | null>(null)
 
 type State = 'normal' | 'success' | 'error'
@@ -29,7 +29,7 @@ const { state, isVisible, message } = defineProps({
   message: {
     type: String,
     default: '',
-  }
+  },
 })
 
 const localIsVisible = ref(isVisible)
@@ -92,5 +92,4 @@ defineExpose({
   hide,
   fadeOut,
 })
-
 </script>

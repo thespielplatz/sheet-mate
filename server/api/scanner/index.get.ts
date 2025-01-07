@@ -28,7 +28,7 @@ export default defineLoggedInEventHandler(async (event, user) => {
 
   const nocoDB = useNocoDB({ ...scannerConfig.nocoDb })
   const result = await nocoDB.getTableMeta()
-  
+
   if (!checkTableMetadata(result)) {
     throw createError({
       status: 500,
@@ -36,7 +36,7 @@ export default defineLoggedInEventHandler(async (event, user) => {
     })
   }
 
-  return OutputDto.parse({ 
+  return OutputDto.parse({
     ...result,
     domain: scannerConfig.nocoDb.domain,
     name: scannerConfig.name,

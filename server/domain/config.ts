@@ -1,6 +1,6 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { z } from 'zod'
-import fs from 'fs'
-import path from 'path'
 
 const UserSchema = z.object({
   id: z.string(),
@@ -38,7 +38,7 @@ export const ConfigSchema = z.object({
 export type ConfigType = z.infer<typeof ConfigSchema>
 
 export const parseConfig = () => {
-	const configFilePath = path.resolve(process.cwd(), 'config.json')
+  const configFilePath = path.resolve(process.cwd(), 'config.json')
 
   try {
     const configData = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))

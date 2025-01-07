@@ -13,13 +13,9 @@
 </template>
 
 <script setup lang="ts">
-
 import CenterContainer from '~/components/layout/CenterContainer.vue'
 import GithubLink from '~/components/content/GithubLink.vue'
 import Tooltip from '~/components/layout/Tooltip.vue'
 import LinkDefault from '~/components/typography/LinkDefault.vue'
 import VersionBadge from '~/components/content/VersionBadge.vue'
-
-const runtimeConfig = useRuntimeConfig()
-
 </script>

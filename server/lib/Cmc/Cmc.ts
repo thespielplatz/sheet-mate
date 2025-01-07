@@ -13,26 +13,26 @@ export default class Cmc {
 
   async map(symbols: string) {
     const url = `${baseUrl}/cryptocurrency/map?symbol=${symbols}`
-    const response = await $fetch(url, { 
-      method: 'GET', 
+    const response = await $fetch(url, {
+      method: 'GET',
       headers: this.createHeaders(),
     })
     return response
   }
 
-  async value(ids: string): Promise<any> {
+  async value(ids: string): Promise<unknown> {
     const url = `${baseUrl}/cryptocurrency/quotes/latest?id=${ids}&convert=EUR`
-    const response = await $fetch(url, { 
-      method: 'GET', 
+    const response = await $fetch(url, {
+      method: 'GET',
       headers: this.createHeaders(),
     })
     return response
-  }  
+  }
 
   private createHeaders() {
     return {
       'X-CMC_PRO_API_KEY': this.apiKey,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
   }
 }

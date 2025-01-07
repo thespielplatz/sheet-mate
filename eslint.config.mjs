@@ -21,6 +21,7 @@ export default createConfigForNuxt({
       '@stylistic/member-delimiter-style': 'off',
       '@vue/singleline-html-element-content-newline': 'off',
       'vue/multi-word-component-names': 'off',
+      'vue/block-tag-newline': 'off',
     },
   },
   )

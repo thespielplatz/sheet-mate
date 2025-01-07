@@ -1,11 +1,15 @@
 <template>
   <Badge>
-    <LinkDefault target="_blank" :href="tagLink">{{ version }}</LinkDefault>
+    <LinkDefault
+      target="_blank"
+      :href="tagLink"
+    >
+      {{ version }}
+    </LinkDefault>
   </Badge>
 </template>
 
 <script setup lang="ts">
-
 import Badge from '~/components/typography/Badge.vue'
 import LinkDefault from '~/components/typography/LinkDefault.vue'
 
@@ -15,5 +19,4 @@ const version = ref(runtimeConfig.public.version ? `v${runtimeConfig.public.vers
 const releasedVersion = ref(runtimeConfig.public.releasedVersion ? `v${runtimeConfig.public.releasedVersion}` : 'undefined')
 
 const tagLink = ref(`${runtimeConfig.public.githubLink}/releases/tag/${releasedVersion.value}`)
-
 </script>
