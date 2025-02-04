@@ -17,7 +17,6 @@
 ## Project Overview
 
 Features: See [Features](docs/FEATURES.md)
-
 Roadmap: See [Features](docs/ROADMAP.md)
 
 ## How to use
